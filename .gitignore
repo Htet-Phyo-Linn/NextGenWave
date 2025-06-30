@@ -1,0 +1,40 @@
+# Laravel
+/vendor
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/bootstrap/cache/*.php
+/storage/logs/*.log
+
+# Environment
+.env
+.env.backup
+.env.production
+
+# PHPUnit
+/.phpunit.cache
+.phpunit.result.cache
+
+# IDE / Editor / Tools
+/.idea
+/.vscode
+/.zed
+/.fleet
+Homestead.json
+Homestead.yaml
+.phpactor.json
+auth.json
+
+# Misc
+npm-debug.log
+yarn-error.log
+
+/storage/framework/views/*
+/storage/framework/cache/*
+
+/storage/app/private/
+/storage/app/public/
+/storage/app/livewire-tmp/
