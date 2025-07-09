@@ -1,19 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\AuthMiddleware;
-use App\Http\Middleware\RoleMiddleware;
-use App\Http\Middleware\AdminAuthCheckMiddleware;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CoursesController;
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LessonsController;
-use App\Http\Controllers\EnrollmentsController;
-use App\Http\Middleware\CacheJsMiddleware;
 use App\Http\Controllers\AuthenticatedUserController;
-use App\Http\Middleware\RestrictPublicAccess;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\EnrollmentsController;
+use App\Http\Controllers\LessonsController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\AdminAuthCheckMiddleware;
+use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Support\Facades\Route;
 
 // public routes
 Route::view('/', 'welcome')->name('/');
@@ -23,14 +20,12 @@ Route::get('/course', [CoursesController::class, 'index'])->name('public.courses
 Route::get('/filter', [CoursesController::class, 'filter'])->name('public.courses.filter');
 Route::get('/course/{id}', [CoursesController::class, 'course_detail'])->name('public.courses.detail');
 
-
 // no dashboard, using route to split admin and user
 Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified', AdminAuthCheckMiddleware::class])->name('dashboard');
 
 Route::get('loginPage', [AuthController::class, 'loginPage'])->name('auth#loginPage');
 Route::get('registerPage', [AuthController::class, 'registerPage'])->name('auth#registerPage');
-
 
 // Routes that require authentication and role checking
 Route::middleware(['auth', 'verified', RoleMiddleware::class])->group(function () {
@@ -42,7 +37,6 @@ Route::middleware(['auth', 'verified', RoleMiddleware::class])->group(function (
             Route::get('lesson/{id}', [CoursesController::class, 'course_lessons'])->name('course.lessons');
         });
     });
-
 
     Route::prefix('admin')->group(function () {
         Route::get('dashboard', function () {
@@ -96,6 +90,7 @@ Route::middleware(['auth', 'verified', RoleMiddleware::class])->group(function (
 
             Route::post('edit', [EnrollmentsController::class, 'edit'])->name('enrollment.edit');
             Route::get('edit/{id}', [EnrollmentsController::class, 'editPage'])->name('enrollment.editPage');
+            Route::put('{id}/update', [EnrollmentsController::class, 'update'])->name('enrollment.update');
 
             Route::get('delete/{id}', [EnrollmentsController::class, 'delete'])->name('enrollment.delete');
         });
@@ -109,7 +104,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 
 // Route::middleware(['auth', 'verified', RoleMiddleware::class])->group(function () {
 
@@ -140,10 +134,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 //     });
 // });
 
-
 Route::fallback(function () {
     return redirect()->route('dashboard'); // Redirect to dashboard for undefined routes
 });
 // Authentication routes provided by Laravel Breeze
 require __DIR__ . '/auth.php';
-

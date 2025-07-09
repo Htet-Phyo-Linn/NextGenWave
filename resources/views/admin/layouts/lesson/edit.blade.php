@@ -37,7 +37,8 @@
 
                                 <div class="form-group">
                                     <label for="content">Content</label>
-                                    <textarea class="form-control" name="content" id="content" required>{{ $lesson->content }}</textarea>
+                                    <textarea class="form-control" name="content" id="content"
+                                        required>{{ $lesson->content }}</textarea>
                                 </div>
                                 <hr>
                                 <h4>Edit : Videos</h4>
@@ -54,18 +55,15 @@
                                             <input type="url" class="form-control" name="video_urls[]"
                                                 id="video_url_{{ $video->id }}" value="{{ $video->video_url }}">
 
-                                            <label class="mt-2 mb-1"
-                                                for="video_duration_{{ $video->id }}">Duration</label>
+                                            <label class="mt-2 mb-1" for="video_duration_{{ $video->id }}">Duration</label>
                                             <input type="text" class="form-control" name="video_durations[]"
-                                                id="video_duration_{{ $video->id }}" value="{{ $video->duration }}"
-                                                required>
+                                                id="video_duration_{{ $video->id }}" value="{{ $video->duration }}" required>
                                             <hr>
                                         </div>
                                     @endforeach
                                 </div>
 
-                                <button type="button" class="btn btn-light"
-                                    onclick="window.history.back();">Cancel</button>
+                                <button type="button" class="btn btn-light" onclick="window.history.back();">Cancel</button>
                                 <button type="submit" class="btn btn-primary" style="float: right;">Save Changes</button>
 
 

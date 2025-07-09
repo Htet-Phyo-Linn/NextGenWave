@@ -132,8 +132,7 @@
                                             @endforeach
                                         </div>
                                         <div class="d-flex justify-content-end gap-2  mx-auto">
-                                            <a href="{{ route('lesson.editPage', $lesson->id) }}"
-                                                class="btn btn-sm btn-secondary">
+                                            <a href="{{ route('lesson.editPage', $lesson->id) }}" class="btn btn-sm btn-secondary">
                                                 Edit
                                             </a>
 
@@ -154,6 +153,14 @@
 
                     </div>
                 </div>
+                <div style="text-align: right; margin-top: 20px; margin-right: 10px;">
+                    <button type="button" class="btn btn-light" style="margin-right: 10px;"
+                        onclick="window.history.back();">Cancel</button>
+                </div>
+
+
+
+
             </div>
         </div>
     </div>
@@ -201,8 +208,7 @@
                     </div>
                     <div class="d-flex justify-content-end gap-2  mx-auto">
                         <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
-                        <button type="button" class="btn btn-light" id="close-form-btn"
-                            style="float: right;">Close</button>
+                        <button type="button" class="btn btn-light" id="close-form-btn" style="float: right;">Close</button>
                     </div>
                 </form>
             </div>
@@ -214,6 +220,7 @@
 
 @section('scripts')
     <script>
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -226,7 +233,7 @@
 
         // Add click event listener to each course title
         courseTitles.forEach(title => {
-            title.addEventListener('click', function() {
+            title.addEventListener('click', function () {
                 const lessonId = this.dataset.lessonId; // Get the course ID
                 const lessonList = document.getElementById(`videos-${lessonId}`);
 
@@ -251,42 +258,42 @@
         let inputCount = 0; // Counter for unique div IDs
 
         // jQuery function to add new input boxes for video details
-        $('#plus-button').on('click', function() {
+        $('#plus-button').on('click', function () {
             inputCount++; // Increment the count for unique ID
 
             // Create a new div for the video details
             const newInputDiv = $(`
-                <div class="mb-3 border p-3" id="input-box-${inputCount}">
-                    <div class="form-group">
-                        <label for="video-title-${inputCount}">Video Title</label>
-                        <input type="text" class="form-control" id="video-title-${inputCount}" placeholder="Video Title (${inputCount})">
-                    </div>
-                    <div class="form-group">
-                        <label for="video-url-${inputCount}">Video URL</label>
-                        <input type="text" class="form-control" id="video-url-${inputCount}" placeholder="Video URL (${inputCount})">
-                    </div>
-                    <div class="form-group">
-                        <label for="duration-${inputCount}">Duration</label>
-                        <input type="text" class="form-control" id="duration-${inputCount}" placeholder="Duration (${inputCount})">
-                    </div>
-                    <button class="btn btn-sm btn-danger delete-button mt-2" data-id="${inputCount}">Delete</button>
-                </div>
-            `);
+                                                                    <div class="mb-3 border p-3" id="input-box-${inputCount}">
+                                                                        <div class="form-group">
+                                                                            <label for="video-title-${inputCount}">Video Title</label>
+                                                                            <input type="text" class="form-control" id="video-title-${inputCount}" placeholder="Video Title (${inputCount})">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="video-url-${inputCount}">Video URL</label>
+                                                                            <input type="text" class="form-control" id="video-url-${inputCount}" placeholder="Video URL (${inputCount})">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="duration-${inputCount}">Duration</label>
+                                                                            <input type="text" class="form-control" id="duration-${inputCount}" placeholder="Duration (${inputCount})">
+                                                                        </div>
+                                                                        <button class="btn btn-sm btn-danger delete-button mt-2" data-id="${inputCount}">Delete</button>
+                                                                    </div>
+                                                                `);
 
             // Append the new input div to the bottom of the container, right above the plus button
             $('#input-container').append(newInputDiv);
         });
 
         // Event delegation to handle delete button clicks
-        $('#input-container').on('click', '.delete-button', function() {
+        $('#input-container').on('click', '.delete-button', function () {
             const id = $(this).data('id'); // Get the unique ID from the data attribute
             $(`#input-box-${id}`).remove(); // Remove the div from the DOM
 
             // Reorder input boxes after deletion
             inputCount = 0;
-            $('#input-container .mb-3').each(function() {
+            $('#input-container .mb-3').each(function () {
                 inputCount++;
-                $(this).find('input').attr('placeholder', function(index) {
+                $(this).find('input').attr('placeholder', function (index) {
                     const placeholders = ['Video Title', 'Video URL', 'Duration'];
                     return `${placeholders[index]} (${inputCount})`;
                 });
@@ -296,18 +303,18 @@
         });
 
         // form manage
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             $('#add-lesson-form').hide();
             // Show the form when the "Add Lesson" button is clicked
-            $('#add-lesson-btn').on('click', function() {
+            $('#add-lesson-btn').on('click', function () {
                 $('#list_card').hide(); // Hide the lesson list
                 $('#add-lesson-btn').hide(); // Hide the "Add Lesson" button
                 $('#add-lesson-form').show(); // Show the add lesson form
             });
 
             // Close the form and show the lesson list again
-            $('#close-form-btn').on('click', function() {
+            $('#close-form-btn').on('click', function () {
                 $('#add-lesson-form').hide(); // Hide the form
                 $('#add-lesson-btn').show(); // Show the "Add Lesson" button
                 $('#list_card').show(); // Show the lesson list
@@ -315,7 +322,7 @@
 
 
             // Capture values and send via AJAX on submit button click
-            $('#add-lesson-form').on('submit', function(event) {
+            $('#add-lesson-form').on('submit', function (event) {
                 event.preventDefault(); // Prevent the default form submission
 
                 const lessonData = {
@@ -328,7 +335,7 @@
                 };
 
                 // Loop through each input box and collect values
-                $('#input-container .mb-3').each(function() {
+                $('#input-container .mb-3').each(function () {
                     const videoTitle = $(this).find('input[id^="video-title"]').val();
                     const videoURL = $(this).find('input[id^="video-url"]').val();
                     const duration = $(this).find('input[id^="duration"]').val();
@@ -349,7 +356,7 @@
                     url: '{{ route('lesson.listUpdate') }}',
                     method: 'POST',
                     data: lessonData,
-                    success: function(response) {
+                    success: function (response) {
                         // Handle success response
                         console.log('Data sent successfully:', response);
                         alert('Lesson added successfully!');
@@ -374,7 +381,7 @@
                         // });
 
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         console.error(xhr);
                         alert('An error occurred. Please try again.');
                     }

@@ -1,124 +1,92 @@
 @extends('admin.master')
+
 @section('content')
-    <!-- Button to trigger the modal -->
-    <div class="row  mb-3">
+    <div class="row mb-3">
         <div class="col-md-9">
             @if (session('createSuccess'))
-                <div class="row">
-                    <div class="alert alert-success alert-dismissible" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('createSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                <div class="alert alert-success alert-dismissible">
+                    <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('createSuccess') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
 
-            @if (session('updateSuccess'))
-                <div class="row">
-                    <div class="alert alert-success alert-dismissible" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('updateSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-            @endif
-
-            @if (session('deleteSuccess'))
-                <div class="row">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('deleteSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-            @endif
             @if ($errors->any())
-                <div class="row">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                                </li>
-                            @endforeach
-                        </strong>
-
-                    </div>
+                <div class="alert alert-danger alert-dismissible">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li><i class="fa-solid fa-circle-xmark me-2"></i>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
-
-
-
         </div>
         <div class="col-md-3">
-            <button type="button" class="btn btn-primary" id="openModal" data-bs-toggle="modal"
-                data-bs-target="#enrollmentModal">
-                Add New enrollment
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enrollmentModal">
+                Enroll New Student
             </button>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
-
             <div class="card">
                 <div class="card-body">
                     <p class="card-title mb-3">Enrollment List</p>
 
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-border display">
+                        <table id="example" class="table table-striped table-border">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Enrollement ID</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>enrollment Name</th>
-                                    <th>Enrolled At</th>
+                                    <th>Enrollment ID</th>
+                                    <th>User Name</th>
+                                    <th>Course Name</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Enrolled At</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
+                            {{-- {{ dd($items->toArray()) }} --}}
                             <tbody>
                                 @foreach ($items as $index => $enrollment)
                                     <tr>
-                                        {{-- <td>{{ sprintf('ENR-%05d', $enrollment->id) }}</td> --}}
-                                        <!-- This will show 1 for the first item, 2 for the second, and so on -->
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $enrollment->enrollment_id }}</td>
-                                        <td>{{ $enrollment->username }}</td>
-                                        <td>{{ $enrollment->user_email }}</td>
-                                        <td>{{ $enrollment->course_name }}</td>
-                                        <td>{{ $enrollment->enrolled_at }}</td>
+                                        <td>{{ $enrollment->id ?? 'N/A' }}</td>
+                                        <td>{{ $enrollment->user->name ?? 'N/A' }}</td>
+                                        <td>{{ $enrollment->course->title ?? 'N/A' }}</td>
+                                        <td>{{ ucfirst($enrollment->status) }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($enrollment->enrolled_at)->format('Y-m-d H:i') }}</td>
                                         <td>
-                                            @if ($enrollment->status === 'active')
-                                                <label class="badge badge-success">Active</label>
-                                            @elseif($enrollment->status === 'pending')
-                                                <label class="badge badge-warning">Pending</label>
-                                            @elseif($enrollment->status === 'cancelled')
-                                                <label class="badge badge-danger">Cancelled</label>
-                                            @elseif($enrollment->status === 'complete')
-                                                <label class="badge badge-primary">Complete</label>
-                                            @else
-                                                <label
-                                                    class="badge badge-secondary">{{ ucfirst($enrollment->status) }}</label>
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            {{-- <!-- Edit Button -->
-                                            <a href="{{ route('enrollment.list', $enrollment->id) }}"
-
-                                                class="btn btn-dark btn-md">
-                                                <i class="fas fa-edit"></i>
+                                            <!-- Edit Button -->
+                                            {{-- <a href="{{ route('enrollment.editPage', $enrollment->id) }}"
+                                                style="margin:0em 0.5em;" class="btn btn-dark btn-md">
+                                                <i class="bi bi-pencil"></i>
                                             </a> --}}
+                                            {{-- <button type="button" class="btn btn-dark btn-md" style="margin:0em 0.5em;"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editEnrollmentModal{{ $enrollment->id }}">
+                                                <i class="bi bi-pencil"></i>
+                                            </button> --}}
+                                            <button type="button" class="btn btn-dark btn-sm editBtn"
+                                                data-id="{{ $enrollment->id }}" data-user_id="{{ $enrollment->user_id }}"
+                                                data-user_name="{{ $enrollment->user->name }}"
+                                                data-course_id="{{ $enrollment->course_id }}"
+                                                data-course_title="{{ $enrollment->course->title }}"
+                                                data-status="{{ $enrollment->status }}" data-bs-toggle="modal"
+                                                data-bs-target="#editEnrollmentModalEdit">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
 
-                                            <!-- Open Modal Button -->
-                                            <a href="#" class="btn btn-dark btn-md" data-bs-toggle="modal"
-                                                data-bs-target="#enrollmentStatusModal"
-                                                style="display: inline-block; margin-block-end: 0em; margin:0.8em 0.2em;"
-                                                data-enrollment-id="{{ $enrollment->enrollment_id }}"
-                                                data-enrollment-status="{{ $enrollment->status }}">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
 
+
+                                            <form action="{{ route('enrollment.delete', $enrollment->id) }}" method="POST"
+                                                style="margin:0em 0.5em;"
+                                                onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                @csrf
+                                                @method('GET')
+                                                <button type="submit" class="btn btn-danger btn-md">
+                                                    <i class="bi bi-trash"></i> <!-- Font Awesome delete icon -->
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -130,90 +98,115 @@
         </div>
     </div>
 @endsection
+<!-- Edit Enrollment Modal -->
+<div class="modal fade" id="editEnrollmentModalEdit" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editForm" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Enrollment</h5>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="edit_id">
+
+                    <div class="mb-3">
+                        <label for="edit_user_id" class="form-label">User</label>
+                        <select name="user_id" id="edit_user_id" class="form-control" required>
+                            <option value="">Loading...</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_course_id" class="form-label">Course</label>
+                        <select name="course_id" id="edit_course_id" class="form-control" required>
+                            <option value="">Loading...</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_status" class="form-label">Status</label>
+                        <select name="status" id="edit_status" class="form-control" required>
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
-<!-- Bootstrap Modal -->
+
+<!-- Modal -->
 <div class="modal fade" id="enrollmentModal" tabindex="-1" aria-labelledby="enrollmentModalLabel" aria-hidden="true"
     data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="enrollmentModalLabel">Enrollment Form</h5>
-            </div>
-            <div class="modal-body">
-                <form id="enrollmentForm" action="{{ route('enrollment.create') }}" method="POST">
-                    @csrf
-                    <!-- User ID Field -->
+            <form action="{{ route('enrollment.create') }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="enrollmentModalLabel">Enroll Student</h5>
+                </div>
+                <div class="modal-body">
                     <div class="mb-3">
                         <label for="user_id" class="form-label">User ID</label>
-                        <input type="text" class="form-control" id="user_id" name="user_id" required>
+                        <input type="number" name="user_id" id="user_id" class="form-control" required>
                     </div>
-
-                    <!-- Course ID Field -->
                     <div class="mb-3">
                         <label for="course_id" class="form-label">Course ID</label>
-                        <input type="text" class="form-control" id="course_id" name="course_id" required>
+                        <input type="number" name="course_id" id="course_id" class="form-control" required>
                     </div>
-
-                    <!-- Enrollment Date Field -->
-                    <div class="mb-3">
-                        <label for="enrolled_at" class="form-label">Enrolled At</label>
-                        <input type="datetime-local" class="form-control" id="enrolled_at" name="enrolled_at">
-                    </div>
-
-                    <!-- Status Field -->
                     <div class="mb-3">
                         <label for="status" class="form-label">Status</label>
-                        <select class="form-control" id="status" name="status" required>
+                        <select name="status" id="status" class="form-control">
                             <option value="active">Active</option>
-                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
                             <option value="cancelled">Cancelled</option>
-                            <option value="complete">Complete</option>
                         </select>
                     </div>
-
-                    <!-- Submit and Close Buttons -->
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enroll</button>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("editForm");
 
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="enrollmentStatusModal" tabindex="-1" aria-labelledby="enrollmentModalLabel"
-    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="enrollmentModalLabel">Update Enrollment Status</h5>
-            </div>
-            <div class="modal-body">
-                <form id="enrollmentForm" action="{{ route('enrollment.edit') }}" method="POST">
-                    @csrf
+        document.querySelectorAll(".editBtn").forEach(button => {
+            button.addEventListener("click", function () {
+                const id = this.dataset.id;
+                const userId = this.dataset.user_id;
+                const userName = this.dataset.user_name;
+                const courseId = this.dataset.course_id;
+                const courseTitle = this.dataset.course_title;
+                const status = this.dataset.status;
 
-                    <input type="hidden" name="enrollment_id" id="enrollment_id"
-                        value="{{ $enrollment->enrollment_id }}">
+                // Set action URL
+                form.action = `/admin/enrollment/${id}/update`;
 
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-control" id="status" name="status" required>
-                            <option value="active" {{ $enrollment->status == 'active' ? 'selected' : '' }}>Active
-                            </option>
-                            <option value="pending" {{ $enrollment->status == 'pending' ? 'selected' : '' }}>Pending
-                            </option>
-                            <option value="cancelled" {{ $enrollment->status == 'cancelled' ? 'selected' : '' }}>
-                                Cancelled</option>
-                            <option value="complete" {{ $enrollment->status == 'complete' ? 'selected' : '' }}>
-                                Complete</option>
-                        </select>
-                    </div>
+                // Fill dropdowns with selected only (or replace with options if needed)
+                document.getElementById("edit_user_id").innerHTML =
+                    `<option value="${userId}" selected>${userName}</option>`;
+                document.getElementById("edit_course_id").innerHTML =
+                    `<option value="${courseId}" selected>${courseTitle}</option>`;
 
-                    <button type="submit" class="btn btn-primary">Update Status</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                // Set selected status
+                document.getElementById("edit_status").value = status;
+            });
+        });
+    });
+</script>

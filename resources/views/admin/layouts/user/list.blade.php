@@ -30,76 +30,92 @@
                     </div>
                 </div>
             @endif
+            @if ($errors->any())
+                <div class="row">
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li><i class="fa-solid fa-circle-xmark me-2"></i> {{ $error }}<button type="button"
+                                        class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </li>
+                            @endforeach
 
+                        </ul>
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="col-md-3">
-            <button type="button" class="btn btn-primary" id="openModal" data-bs-toggle="modal"
+            <button type="button" class="btn btn-primary rounded-pill" id="openModal" data-bs-toggle="modal"
                 data-bs-target="#userModal">
                 Add New user
             </button>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
 
-            <div class="card">
-                <div class="card-body">
-                    <p class="card-title mb-3">User List</p>
 
-                    <div class="table-responsive">
-                        <table id="example" class="table table-striped table-border">
-                            <thead>
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    Category List
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table" id="table1">
+                        <thead>
+                            <tr>
+                                <th>user ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Created At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($items as $index => $user)
                                 <tr>
-                                    <th>No</th>
-                                    <th>user ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Role</th>
-                                    <th>Created At</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($items as $index => $user)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $user->id }}
-                                            <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="Profile"
-                                                style="float: right;">
-                                        </td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->phone }}</td>
-                                        <td>{{ $user->role }}</td>
-                                        <td>{{ $user->created_at }}</td>
-                                        <td>
+                                    <td>{{ $user->id }}
+                                        <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="Profile"
+                                            style="float: right;">
+                                    </td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->phone }}</td>
+                                    <td>{{ $user->role }}</td>
+                                    <td>{{ $user->created_at }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
                                             <!-- Edit Button -->
-                                            <a href="{{ route('user.editPage', $user->id) }}"
-                                                style="display: inline-block; margin-block-end: 0em; margin:0.8em 1em;"
+                                            <a href="{{ route('user.editPage', $user->id) }}" style="margin:0em 0.5em;"
                                                 class="btn btn-dark btn-md">
-                                                <i class="fas fa-edit"></i>
+                                                <i class="bi bi-pencil"></i>
                                             </a>
-
                                             <form action="{{ route('user.delete', $user->id) }}" method="POST"
-                                                style="display: inline-block; margin-block-end: 0em; margin:0.8em 1em;"
+                                                style="margin:0em 0.5em;"
                                                 onsubmit="return confirm('Are you sure you want to delete this user?');">
                                                 @csrf
                                                 @method('GET')
                                                 <button type="submit" class="btn btn-danger btn-md">
-                                                    <i class="fas fa-trash"></i> <!-- Font Awesome delete icon -->
+                                                    <i class="bi bi-trash"></i> <!-- Font Awesome delete icon -->
                                                 </button>
                                             </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>
+
+    </section>
+
 @endsection
 
 <!-- Bootstrap Modal -->
@@ -107,12 +123,14 @@
     data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title" id="userModalLabel">User Form</h5>
             </div>
-            <div class="modal-body">
-                <form id="userForm" action="{{ route('user.create') }}" method="POST">
-                    @csrf
+            <form id="userForm" action="{{ route('user.create') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -123,17 +141,24 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="phone" class="form-control" id="phone" name="phone"
-                            placeholder="+959XXXXXXXXX">
+                        <input type="phone" class="form-control" id="phone" name="phone" placeholder="+959XXXXXXXXX">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Close</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary rounded-pill ms-1" data-bs-dismiss="modal">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Save</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
