@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-
+use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
@@ -25,7 +23,7 @@ class RoleMiddleware
             // \Log::info('Request path: ' . $request->path());  // Should be something like 'admin/dashboard'
             // dd($request->path());
             // dd($request->is('admin/*') && $userRole !== 'admin');
-                // Admin-specific routes protection
+            // Admin-specific routes protection
             if ($request->is('admin*') && $userRole !== 'admin') {
                 return abort(403, 'Unauthorized');
             }

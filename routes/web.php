@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AuthenticatedUserController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\EnrollmentsController;
@@ -29,9 +28,6 @@ Route::get('registerPage', [AuthController::class, 'registerPage'])->name('auth#
 
 // Routes that require authentication and role checking
 Route::middleware(['auth', 'verified', RoleMiddleware::class])->group(function () {
-
-    Route::get('home', [AuthenticatedUserController::class, 'index'])->name('home');
-
     Route::prefix('user')->group(function () {
         Route::prefix('course')->group(function () {
             Route::get('lesson/{id}', [CoursesController::class, 'course_lessons'])->name('course.lessons');
@@ -104,35 +100,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-// Route::middleware(['auth', 'verified', RoleMiddleware::class])->group(function () {
-
-//     Route::prefix('admin')->group(function () {
-//         Route::get('/', function () {
-//             return view('adminhome');
-//         })->name('admin.home');
-
-//         Route::get('/profile', function () {
-//             return view('admin.profile');
-//         })->name('admin.profile');
-
-//         Route::get('/settings', function () {
-//             return view('admin.settings');
-//         })->name('admin.settings');
-//     });
-
-//     Route::prefix('instructor')->group(function () {
-//         Route::get('/instructor', function () {
-//             return view('instructorhome');
-//         });
-//     });
-
-//     Route::prefix('user')->group(function () {
-//         Route::get('/user', function () {
-//             return view('userhome');
-//         });
-//     });
-// });
 
 Route::fallback(function () {
     return redirect()->route('dashboard'); // Redirect to dashboard for undefined routes

@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminAuthCheckMiddleware
 {
@@ -17,11 +16,10 @@ class AdminAuthCheckMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $userRole = Auth::user()->role;
-        if($userRole == 'admin'){
+        if ($userRole == 'admin') {
             return redirect()->route('admin.dashboard');
-        }
-        elseif($userRole == 'user' || $userRole == 'manager'){
-            return redirect()->route('home');
+        } elseif ($userRole == 'user' || $userRole == 'manager') {
+            return redirect()->route('/');
         }
         return $next($request);
     }

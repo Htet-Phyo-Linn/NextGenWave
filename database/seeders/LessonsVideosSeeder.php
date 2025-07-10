@@ -1,11 +1,10 @@
 <?php
-
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use App\Models\Courses;
 use App\Models\Lessons;
-use App\Models\Videos;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class LessonsVideosSeeder extends Seeder
 {
@@ -14,33 +13,23 @@ class LessonsVideosSeeder extends Seeder
      */
     public function run(): void
     {
+// Get available course IDs
+        $courseIds = Courses::pluck('id')->toArray();
 
-
-        // Create lessons first (or retrieve existing ones)
-        $lessons = [];
-        for ($i = 1; $i <= 3; $i++) { // Assuming you want to create 3 lessons
-            $lesson = Lessons::create([
-                'course_id' => 1,
-                'title' => "Lesson $i",
-                'content' => "This is the content for Lesson $i.",
-            ]);
-            $lessons[] = $lesson; // Store the lesson object for later use
+        // Ensure there are courses to attach lessons to
+        if (empty($courseIds)) {
+            echo "No courses found. Please run CourseSeeder first.\n";
+            return;
         }
 
-        // Now that we have the lessons, we can insert videos for each
-        foreach ($lessons as $i => $lesson) {
-            // Number of videos for each lesson
-            $videoCount = 6; // Set to 6 for all lessons
-
-            // Insert videos based on the determined count
-            for ($j = 1; $j <= $videoCount; $j++) {
-                Videos::create([
-                    'lesson_id' => $lesson->id,
-                    'title' => "Video {$j} for Lesson {$i}",
-                    'video_url' => "https://example.com/video{$j}-lesson{$i}.mp4",
-                    'duration' => rand(60, 300), // Random duration between 1 to 5 minutes
-                ]);
-            }
+        for ($i = 1; $i <= 40; $i++) {
+            Lessons::create([
+                'course_id'  => $courseIds[array_rand($courseIds)],
+                'title'      => 'Lesson ' . $i . ' - ' . Str::title(Str::random(8)),
+                'content'    => 'This is the content for lesson ' . $i . '. ' . Str::random(100),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
     }
 }
