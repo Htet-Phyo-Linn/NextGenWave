@@ -13,18 +13,22 @@ use Illuminate\Support\Facades\DB;
 class CoursesController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         // Retrieve courses with category name using a join
-        $courses = DB::table('courses')
+        $query = DB::table('courses')
             ->leftJoin('categories', 'courses.category_id', '=', 'categories.id')
-            ->select('courses.*', 'categories.name as category_name')
-            ->paginate(8);
+            ->select('courses.*', 'categories.name as category_name');
 
-        // Fetch categories for the filter buttons
+        if ($request->filled('category_id')) {
+            $query->where('courses.category_id', $request->category_id);
+        }
+        if ($request->filled('search')) {
+            $query->where('courses.title', 'like', '%' . $request->search . '%');
+        }
+        $courses    = $query->paginate(8)->withQueryString();
         $categories = DB::table('categories')->get();
 
-        // Return view with courses and categories
         return view('user.layouts.courses', compact('courses', 'categories'));
     }
 

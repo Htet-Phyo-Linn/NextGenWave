@@ -15,13 +15,11 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('/');
 Route::view('/contact', 'user.layouts.contact')->name('contact');
 Route::view('/about', 'user.layouts.about')->name('about');
-Route::view('/courses', 'user.layouts.courses')->name('courses');
 Route::view('/detail', 'user.layouts.courses_detail')->name('courses_detail');
-Route::view('/lessons', 'user.layouts.course_lessons')->name('course.lessons'); 
+Route::view('/lessons', 'user.layouts.course_lessons')->name('course.lessons');
 
-Route::get('/course', [CoursesController::class, 'index'])->name('public.courses');
-Route::get('/filter', [CoursesController::class, 'filter'])->name('public.courses.filter');
-Route::get('/course/{id}', [CoursesController::class, 'course_detail'])->name('public.courses.detail');
+Route::get('/course', [CoursesController::class, 'index'])->name('courses.index');
+Route::get('/course/{id}', [CoursesController::class, 'course_detail'])->name('courses.show');
 
 // no dashboard, using route to split admin and user
 Route::get('/dashboard', function () {
