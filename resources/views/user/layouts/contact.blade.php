@@ -1,143 +1,43 @@
-@extends('user.master')
+@extends('user.layout')
 @section('content')
-    <!-- Header Start -->
-    <div style="background-image: linear-gradient(15deg,#80d0c7 0%,  #13547a 100%);">
-
-        <div class="container-fluid bg-breadcrumb" style="background: rgba(0, 0, 0, .7)">
-            <div class="container text-center py-5" style="max-width: 900px;">
-                <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">Contact Us</h4>
-                <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/">Pages</a></li>
-                    <li class="breadcrumb-item active text-primary">Contact</li>
-                </ol>
-            </div>
+<!-- Page Header -->
+    <header class="page-header text-white text-center" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-size: cover; background-position: center;">
+        <div class="container">
+            <h1 class="display-4">Get in Touch</h1>
+            <p class="lead">We'd love to hear from you. Please fill out the form below to contact us.</p>
         </div>
+    </header>
 
-    </div>
-    <!-- Header End -->
-    <!-- Contact Start -->
-    <div class="container-fluid contact py-5">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-xl-6">
-                    <div class="wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="bg-light rounded p-5 mb-5">
-                            <h4 class="text-primary mb-4">Get in Touch</h4>
-                            <div class="row g-4">
-                                <div class="col-md-6">
-                                    <div class="contact-add-item">
-                                        <div class="contact-icon text-primary mb-4">
-                                            <i class="fas fa-map-marker-alt fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h4>Address</h4>
-                                            <p class="mb-0">123 Street New York.USA</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="contact-add-item">
-                                        <div class="contact-icon text-primary mb-4">
-                                            <i class="fas fa-envelope fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h4>Mail Us</h4>
-                                            <p class="mb-0">info@example.com</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="contact-add-item">
-                                        <div class="contact-icon text-primary mb-4">
-                                            <i class="fa fa-phone-alt fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h4>Telephone</h4>
-                                            <p class="mb-0">(+012) 3456 7890</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="contact-add-item">
-                                        <div class="contact-icon text-primary mb-4">
-                                            <i class="fab fa-firefox-browser fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h4>Yoursite@ex.com</h4>
-                                            <p class="mb-0">(+012) 3456 7890</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    <!-- Contact Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="mb-4">Send us a message</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" required>
                         </div>
-                        <div class="bg-light p-5 rounded h-100 wow fadeInUp" data-wow-delay="0.2s">
-                            <h4 class="text-primary">Send Your Message</h4>
-                            <p class="mb-4">The contact form is currently inactive. Get a functional and working contact
-                                form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and
-                                you're done. <a class="text-primary fw-bold"
-                                    href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
-                            <form>
-                                <div class="row g-4">
-                                    <div class="col-lg-12 col-xl-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control border-0" id="name"
-                                                placeholder="Your Name">
-                                            <label for="name">Your Name</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-xl-6">
-                                        <div class="form-floating">
-                                            <input type="email" class="form-control border-0" id="email"
-                                                placeholder="Your Email">
-                                            <label for="email">Your Email</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-xl-6">
-                                        <div class="form-floating">
-                                            <input type="phone" class="form-control border-0" id="phone"
-                                                placeholder="Phone">
-                                            <label for="phone">Your Phone</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-xl-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control border-0" id="project"
-                                                placeholder="Project">
-                                            <label for="project">Your Project</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control border-0" id="subject"
-                                                placeholder="Subject">
-                                            <label for="subject">Subject</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea class="form-control border-0" placeholder="Leave a message here" id="message" style="height: 160px"></textarea>
-                                            <label for="message">Message</label>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" required>
                         </div>
-                    </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
-                <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.2s">
-                    <div class="rounded h-100">
-                        <iframe class="rounded h-100 w-100" style="height: 400px;"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387191.33750346623!2d-73.97968099999999!3d40.6974881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1694259649153!5m2!1sen!2sbd"
-                            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="col-lg-6">
+                    <h2 class="mb-4">Our Location</h2>
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3726.789459544332!2d97.032222214926!3d20.78333338624333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f2a9fe19e5c0e6f%3A0x27e0e8f7e4e8f7e4!2sTaunggyi%2C%20Myanmar%20(Burma)!5e0!3m2!1sen!2sus!4v1625070422446!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Contact End -->
+    </section>
+
 @endsection
