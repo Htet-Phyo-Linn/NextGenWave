@@ -17,7 +17,7 @@
                                     future, <br> therefore, we cordially invite you to join our team.</p>
                                 <div class="d-flex justify-content-center flex-shrink-0 mb-4">
                                     <a class="btn btn-light rounded-pill py-3 px-4 px-md-5 me-2"
-                                        href="{{ route('public.courses') }}"><i
+                                        href="#"><i
                                             class="fas fa-play-circle me-2"></i>Courses</a>
                                     <a class="btn btn-primary rounded-pill py-3 px-4 px-md-5 ms-2"
                                         href="{{ route('register') }}">Join With Us</a>
