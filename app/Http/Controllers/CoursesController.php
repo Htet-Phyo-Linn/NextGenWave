@@ -26,6 +26,8 @@ class CoursesController extends Controller
         if ($request->filled('search')) {
             $query->where('courses.title', 'like', '%' . $request->search . '%');
         }
+
+        $query->orderBy('courses.created_at', 'desc');
         $courses    = $query->paginate(8)->withQueryString();
         $categories = DB::table('categories')->get();
         // dd($courses);
