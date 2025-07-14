@@ -96,15 +96,22 @@ Route::middleware(['auth', 'verified', RoleMiddleware::class])->group(function (
 
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    // Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::fallback(function () {
     return redirect()->route('dashboard'); // Redirect to dashboard for undefined routes
 });
+
+
+//logout Route
+use Illuminate\Support\Facades\Auth;
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
 // Authentication routes provided by Laravel Breeze
 require __DIR__ . '/auth.php';

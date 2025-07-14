@@ -83,10 +83,10 @@
                 </div>
 
                 <!-- Sidebar: Course Info -->
-                <div class="col-lg-4">
+                <div class="col-lg-4" style="margin-top: 60px">
                     <div class="card sticky-sidebar">
                         <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Course Thumbnail">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 10px">
                             <h5 class="card-title">Course Features</h5>
                             <ul class="list-unstyled">
                                 <li><i class="bi bi-camera-video me-2"></i> 25+ hours of video</li>
