@@ -105,6 +105,13 @@
                                 <span>Enrollment</span>
                             </a>
                         </li>
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="nav-link btn btn-link text-white text-decoration-none p-0"
+                                style="border: none; background: none;">
+                                Logout
+                            </button>
+                        </form>
                     </ul>
                 </div>
             </div>

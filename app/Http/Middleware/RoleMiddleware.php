@@ -25,22 +25,22 @@ class RoleMiddleware
             // dd($request->is('admin/*') && $userRole !== 'admin');
             // Admin-specific routes protection
             if ($request->is('admin*') && $userRole !== 'admin') {
-                return abort(403, 'Unauthorized');
+                return redirect('/');
             }
 
             // Manager-specific routes protection
             elseif ($request->is('manager*') && $userRole !== 'manager') {
-                return abort(403, 'Unauthorized');
+                return redirect('/');
             }
 
             // Instructor-specific routes protection
             elseif ($request->is('instructor*') && $userRole !== 'instructor') {
-                return abort(403, 'Unauthorized');
+                return redirect('/');
             }
 
             // Student-specific routes protection
             elseif ($request->is('student*') && $userRole !== 'student') {
-                return abort(403, 'Unauthorized');
+                return redirect('/');
             }
         }
 

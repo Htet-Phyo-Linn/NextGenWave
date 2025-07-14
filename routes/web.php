@@ -8,8 +8,9 @@ use App\Http\Controllers\LessonsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminAuthCheckMiddleware;
+use App\Http\Middleware\PreventBackHistory;
 use App\Http\Middleware\RoleMiddleware;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 // public routes
 Route::view('/', 'welcome')->name('/');
@@ -23,13 +24,13 @@ Route::get('/course/{id}', [CoursesController::class, 'course_detail'])->name('c
 
 // no dashboard, using route to split admin and user
 Route::get('/dashboard', function () {
-})->middleware(['auth', 'verified', AdminAuthCheckMiddleware::class])->name('dashboard');
+})->middleware(['auth', 'verified', PreventBackHistory::class, AdminAuthCheckMiddleware::class])->name('dashboard');
 
-Route::get('loginPage', [AuthController::class, 'loginPage'])->name('auth#loginPage');
-Route::get('registerPage', [AuthController::class, 'registerPage'])->name('auth#registerPage');
+Route::get('loginPage', [AdminAuthCheckMiddleware::class, AuthController::class, 'loginPage'])->name('auth#loginPage');
+Route::get('registerPage', [AdminAuthCheckMiddleware::class, AuthController::class, 'registerPage'])->name('auth#registerPage');
 
 // Routes that require authentication and role checking
-Route::middleware(['auth', 'verified', RoleMiddleware::class])->group(function () {
+Route::middleware([PreventBackHistory::class, 'auth', 'verified', RoleMiddleware::class])->group(function () {
     Route::prefix('user')->group(function () {
         Route::prefix('course')->group(function () {
             Route::get('lesson/{id}', [CoursesController::class, 'course_lessons'])->name('course.lessons');
@@ -105,13 +106,12 @@ Route::fallback(function () {
     return redirect()->route('dashboard'); // Redirect to dashboard for undefined routes
 });
 
-
 //logout Route
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
-// Authentication routes provided by Laravel Breeze
+
 require __DIR__ . '/auth.php';
