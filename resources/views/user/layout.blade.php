@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeLMS - Your Coding Journey Starts Here</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('user/css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('user/css/style.css') }}">
     @yield('styles')
 </head>
+
 <body>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.html"><i class="bi bi-code-slash"></i> CodeLMS</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -33,8 +36,15 @@
                         <a class="nav-link" href="contact.html">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary ms-lg-2" href="login.html">Login</a>
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="nav-link btn btn-link text-white text-decoration-none p-0"
+                                style="border: none; background: none;">
+                                Logout
+                            </button>
+                        </form>
                     </li>
+
                     <li class="nav-item form-check form-switch ms-lg-3 d-flex align-items-center">
                         <input class="form-check-input" type="checkbox" id="theme-switcher" style="cursor:pointer">
                         <label class="form-check-label ms-2 text-white" for="theme-switcher" title="Toggle dark mode">
@@ -46,14 +56,15 @@
         </div>
     </nav>
 
-   @yield('content')
+    @yield('content')
     <!-- Footer -->
     <footer class="bg-dark text-white py-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
                     <h5>About CodeLMS</h5>
-                    <p>We are dedicated to providing the best online coding education to empower the next generation of developers.</p>
+                    <p>We are dedicated to providing the best online coding education to empower the next generation of
+                        developers.</p>
                 </div>
                 <div class="col-md-4">
                     <h5>Quick Links</h5>
@@ -79,6 +90,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{asset('user/js/main.js')}}"></script>
+    <script src="{{ asset('user/js/main.js') }}"></script>
 </body>
+
 </html>

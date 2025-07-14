@@ -104,5 +104,14 @@ Route::middleware('auth')->group(function () {
 Route::fallback(function () {
     return redirect()->route('dashboard'); // Redirect to dashboard for undefined routes
 });
+
+
+//logout Route
+use Illuminate\Support\Facades\Auth;
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
 // Authentication routes provided by Laravel Breeze
 require __DIR__ . '/auth.php';
