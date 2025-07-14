@@ -5,12 +5,12 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1 class="display-5">Full-Stack Web Development</h1>
-                    <p class="lead">Become a complete web developer by learning everything from front-end to back-end technologies. From HTML/CSS to Node.js, Express, and databases.</p>
-                    <p>Created by: <strong>Jane Doe</strong></p>
+                    <h1 class="display-5 fw-bold">{{ $course->title }}</h1>
+                    <p class="lead">{{ $course->description }}</p>
+                    <p>Created by: <strong>{{ $course->instructor_id }}</strong></p>
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <h2>$99.99</h2>
+                    <h2>{{ $course->price }} mmk</h2>
                     <a href="video-lesson.html" class="btn btn-primary btn-lg w-100">Enroll Now</a>
                 </div>
             </div>
