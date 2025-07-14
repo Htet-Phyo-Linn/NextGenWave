@@ -24,7 +24,7 @@
         <div class="col-md-9">
             @if (session('createSuccess'))
                 <div class="row">
-                    <div class="alert alert-success alert-dismissible" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
                         <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('createSuccess') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -33,7 +33,7 @@
 
             @if (session('updateSuccess'))
                 <div class="row">
-                    <div class="alert alert-success alert-dismissible" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
                         <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('updateSuccess') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -42,7 +42,7 @@
 
             @if (session('deleteSuccess'))
                 <div class="row">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show flash-message" role="alert">
                         <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('deleteSuccess') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -94,7 +94,7 @@
 
                                         <div class="video-list" id="videos-{{ $lesson->id }}">
 
-                                            @foreach ($videos->where('lesson_id', $lesson->id) as $video)
+                                            @foreach ($lesson->videos as $video)
                                                 <hr>
                                                 <div class="video-item">
                                                     <p>{{ $video->title }}</p> <!-- Display video title -->
@@ -105,17 +105,18 @@
                                                             No Video Available
                                                         </button>
                                                     @else
-                                                        <!-- Button to toggle the collapse -->
-                                                        <button class="btn btn-sm btn-primary" data-toggle="collapse"
-                                                            data-target="#video-{{ $video->id }}" aria-expanded="false"
+
+                                                        <!-- Bootstrap 5-compatible collapse toggle -->
+                                                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#video-{{ $video->id }}" aria-expanded="false"
                                                             aria-controls="video-{{ $video->id }}">
                                                             Show Video
                                                         </button>
 
                                                         <div class="">
                                                             <!-- Collapse container -->
-                                                            <div class="collapse" id="video-{{ $video->id }}">
-                                                                <div class="card card-body mt-2">
+                                                            <div class="collapse mt-2" id="video-{{ $video->id }}">
+                                                                <div class="card card-body">
                                                                     <div
                                                                         style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
                                                                         <iframe src="{{ $video->video_url }}"
@@ -125,6 +126,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                         </div>
                                                     @endif
 
@@ -153,18 +155,20 @@
 
                     </div>
                 </div>
-                <div style="text-align: right; margin-top: 20px; margin-right: 10px;">
-                    <button type="button" class="btn btn-light" style="margin-right: 10px;"
-                        onclick="window.history.back();">Cancel</button>
+                <div class="row m-3 mr-3">
+                    <div style="text-align: right;">
+                        <button type="button" class="btn btn-light" onclick="redirectToCourse();">Cancel</button>
+                    </div>
                 </div>
-
-
-
-
             </div>
         </div>
     </div>
 
+    <script>
+        function redirectToCourse() {
+            window.location.href = "{{ route('course.list') }}"; // Change this to your actual route
+        }
+    </script>
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -263,22 +267,22 @@
 
             // Create a new div for the video details
             const newInputDiv = $(`
-                                                                    <div class="mb-3 border p-3" id="input-box-${inputCount}">
-                                                                        <div class="form-group">
-                                                                            <label for="video-title-${inputCount}">Video Title</label>
-                                                                            <input type="text" class="form-control" id="video-title-${inputCount}" placeholder="Video Title (${inputCount})">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="video-url-${inputCount}">Video URL</label>
-                                                                            <input type="text" class="form-control" id="video-url-${inputCount}" placeholder="Video URL (${inputCount})">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="duration-${inputCount}">Duration</label>
-                                                                            <input type="text" class="form-control" id="duration-${inputCount}" placeholder="Duration (${inputCount})">
-                                                                        </div>
-                                                                        <button class="btn btn-sm btn-danger delete-button mt-2" data-id="${inputCount}">Delete</button>
-                                                                    </div>
-                                                                `);
+                                                                                                                                                                        <div class="mb-3 border p-3" id="input-box-${inputCount}">
+                                                                                                                                                                            <div class="form-group">
+                                                                                                                                                                                <label for="video-title-${inputCount}">Video Title</label>
+                                                                                                                                                                                <input type="text" class="form-control" id="video-title-${inputCount}" placeholder="Video Title (${inputCount})">
+                                                                                                                                                                            </div>
+                                                                                                                                                                            <div class="form-group">
+                                                                                                                                                                                <label for="video-url-${inputCount}">Video URL</label>
+                                                                                                                                                                                <input type="text" class="form-control" id="video-url-${inputCount}" placeholder="Video URL (${inputCount})">
+                                                                                                                                                                            </div>
+                                                                                                                                                                            <div class="form-group">
+                                                                                                                                                                                <label for="duration-${inputCount}">Duration</label>
+                                                                                                                                                                                <input type="text" class="form-control" id="duration-${inputCount}" placeholder="Duration (${inputCount})">
+                                                                                                                                                                            </div>
+                                                                                                                                                                            <button class="btn btn-sm btn-danger delete-button mt-2" data-id="${inputCount}">Delete</button>
+                                                                                                                                                                        </div>
+                                                                                                                                                                    `);
 
             // Append the new input div to the bottom of the container, right above the plus button
             $('#input-container').append(newInputDiv);

@@ -6,7 +6,7 @@
         <div class="col-md-9">
             @if (session('createSuccess'))
                 <div class="row">
-                    <div class="alert alert-success alert-dismissible" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
                         <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('createSuccess') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -15,7 +15,7 @@
 
             @if (session('updateSuccess'))
                 <div class="row">
-                    <div class="alert alert-success alert-dismissible" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
                         <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('updateSuccess') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -24,7 +24,7 @@
 
             @if (session('deleteSuccess'))
                 <div class="row">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show flash-message" role="alert">
                         <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('deleteSuccess') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>

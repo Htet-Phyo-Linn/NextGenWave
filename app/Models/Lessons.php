@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Models;
 
+use App\Models\Videos;
 use Illuminate\Database\Eloquent\Model;
 
 class Lessons extends Model
@@ -11,4 +11,10 @@ class Lessons extends Model
         'title',
         'content',
     ];
+
+    public function videos()
+    {
+        return $this->hasMany(Videos::class, 'lesson_id');
+    }
+
 }

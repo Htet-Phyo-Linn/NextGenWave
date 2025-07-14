@@ -26,7 +26,7 @@
 
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <script src="{{ asset('admin/dist/assets/static/js/initTheme.js')}}"></script>
     <div id="app">
         <div id="sidebar">
@@ -123,11 +123,23 @@
                 </a>
             </header>
 
-            <div class="page-heading">
+            {{-- <div class="page-heading">
                 <h3>Profile Statistics</h3>
-            </div>
-
-            @yield('content')
+            </div> --}}
+            <script>
+                // Auto dismiss flash messages after 3 seconds
+                setTimeout(() => {
+                    const alerts = document.querySelectorAll('.flash-message');
+                    alerts.forEach(alert => {
+                        let bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                        bsAlert.close();
+                    });
+                }, 3000); // 3 seconds
+            </script>
+            <!-- Content Wrapper -->
+            <main class="flex-grow-1">
+                @yield('content')
+            </main>
 
 
 

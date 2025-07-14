@@ -12,7 +12,7 @@
         <div class="col-md-9">
             @if (session('createSuccess'))
                 <div class="row">
-                    <div class="alert alert-success alert-dismissible" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
                         <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('createSuccess') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -21,7 +21,7 @@
 
             @if (session('updateSuccess'))
                 <div class="row">
-                    <div class="alert alert-success alert-dismissible" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
                         <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('updateSuccess') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -30,7 +30,7 @@
 
             @if (session('deleteSuccess'))
                 <div class="row">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show flash-message" role="alert">
                         <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('deleteSuccess') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -121,7 +121,7 @@
                                             </a>
                                             <a href="{{ route('lesson.list', $course->id) }}" style="margin:0em 0.5em;"
                                                 class="btn btn-dark btn-md">
-                                                <i class="bi bi-pencil"></i>
+                                                <i class="bi bi-pencil">Lession List</i>
                                             </a>
                                             <form action="{{ route('course.delete', $course->id) }}" method="POST"
                                                 style="margin:0em 0.5em;"
