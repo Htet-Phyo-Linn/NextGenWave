@@ -26,7 +26,7 @@ class LessonsController extends Controller
     public function list($id)
     {
         // Retrieve lessons with their related videos for the given course ID
-        $lessons = Lessons::with('videos')->where('course_id', 1)->get();
+        $lessons = Lessons::with('videos')->where('course_id', $id)->get();
 
         // dd($lessons);
         // You no longer need to manually query videos separately
