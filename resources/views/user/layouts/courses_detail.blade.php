@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1 class="display-5">{{ $course->title }}</h1>
+                    <h1 class="display-5 fw-bold">{{ $course->title }}</h1>
                     <p class="lead">{{ $course->description }}</p>
                     <p>Created by: <strong>{{ $course->instructor_id }}</strong></p>
                 </div>
