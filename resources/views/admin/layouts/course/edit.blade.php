@@ -6,11 +6,21 @@
         </div>
         <div class="col-md-8 grid-margin stretch-card">
 
-            @if (session('instructor_id_error'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('instructor_id_error') }}
-                </div>
+            @if ($errors->has('instructor_id'))
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Validation Error',
+                            html: `{!! implode('<br>', $errors->get('instructor_id')) !!}`,
+                            confirmButtonText: 'OK',
+                        });
+                    });
+                </script>
             @endif
+
+
+
 
 
 
@@ -48,7 +58,8 @@
                         </div>
                         <div class="form-group">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter Description">{{ old('description', $data->description) }}</textarea>
+                            <textarea class="form-control" id="description" name="description" rows="3"
+                                placeholder="Enter Description">{{ old('description', $data->description) }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="price" class="form-label">Price</label>
@@ -67,8 +78,7 @@
                                 </div>
                             @endif
 
-                            <input id="image" type="file" name="image" class="file-upload-default"
-                                style="display: none;">
+                            <input id="image" type="file" name="image" class="file-upload-default" style="display: none;">
                             <div class="input-group col-xs-12">
                                 <input type="text" class="form-control file-upload-info" disabled
                                     placeholder="Upload Image">

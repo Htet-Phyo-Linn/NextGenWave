@@ -26,8 +26,8 @@
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="phone" class="form-control" id="phone" name="phone"
-                                placeholder="+959XXXXXXXXX" value="{{ old('phone', $data->phone) }}">
+                            <input type="phone" class="form-control" id="phone" name="phone" placeholder="+959XXXXXXXXX"
+                                value="{{ old('phone', $data->phone) }}">
                         </div>
                         <div class="form-group">
                             <label for="role">Role</label>

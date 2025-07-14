@@ -30,7 +30,7 @@ class LessonsController extends Controller
 
         // dd($lessons);
         // You no longer need to manually query videos separately
-        return view('admin.layouts.lesson.list', compact('lessons'));
+        return view('admin.layouts.lesson.list', compact('lessons', 'id'));
     }
 
     public function listUpdate(Request $request)

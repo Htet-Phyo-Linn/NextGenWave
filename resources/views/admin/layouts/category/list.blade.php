@@ -5,44 +5,58 @@
     <div class="row mb-3">
         <div class="col-md-9">
             @if (session('createSuccess'))
-                <div class="row">
-                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('createSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            html: '<strong><i class="fa-solid fa-circle-check me-2"></i> {{ session('createSuccess') }}</strong>',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
 
             @if (session('updateSuccess'))
-                <div class="row">
-                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('updateSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Updated!',
+                            html: '<strong><i class="fa-solid fa-circle-check me-2"></i> {{ session('updateSuccess') }}</strong>',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
 
             @if (session('deleteSuccess'))
-                <div class="row">
-                    <div class="alert alert-danger alert-dismissible fade show flash-message" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('deleteSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            html: '<strong><i class="fa-solid fa-circle-check me-2"></i> {{ session('deleteSuccess') }}</strong>',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
             @if ($errors->any())
-                <div class="row">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li><i class="fa-solid fa-circle-xmark me-2"></i> {{ $error }}<button type="button"
-                                        class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </li>
-                            @endforeach
-
-                        </ul>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Validation Errors',
+                            html: `{!! implode('<br>', $errors->all()) !!}`,
+                            timer: 4000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
 
         </div>
@@ -95,8 +109,7 @@
                                                 <i class="fas fa-trash"></i> <!-- Font Awesome edit icon -->
                                             </a> --}}
                                             <form action="{{ route('category.delete', $category->id) }}" method="POST"
-                                                style="margin:0em 0.5em;"
-                                                onsubmit="return confirm('Are you sure you want to delete this course?');">
+                                                style="margin:0em 0.5em;" class="btn-delete">
                                                 @csrf
                                                 @method('GET')
                                                 <button type="submit" class="btn btn-danger btn-md">

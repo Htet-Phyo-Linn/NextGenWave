@@ -23,31 +23,49 @@
     <div class="row  mb-3">
         <div class="col-md-9">
             @if (session('createSuccess'))
-                <div class="row">
-                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('createSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            html: '<strong><i class="fa-solid fa-circle-check me-2"></i> {{ session('createSuccess') }}</strong>',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
 
             @if (session('updateSuccess'))
-                <div class="row">
-                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('updateSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Updated!',
+                            html: '<strong><i class="fa-solid fa-circle-check me-2"></i> {{ session('updateSuccess') }}</strong>',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
 
             @if (session('deleteSuccess'))
-                <div class="row">
-                    <div class="alert alert-danger alert-dismissible fade show flash-message" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('deleteSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            html: '<strong><i class="fa-solid fa-circle-check me-2"></i> {{ session('deleteSuccess') }}</strong>',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
+
+            <div class="flash-container mb-3"></div>
+
 
             @if (session('instructor_id_error'))
                 <div class="row">
@@ -80,8 +98,8 @@
                     <div class="card-body">
                         <p class="card-title mb-3" style="font-size: 1.5rem;">Lesson List</p>
                         <div id="lessons">
-                            @if (empty($lessons))
-                                <div class="alert alert-info text-center mt-3">
+                            @if ($lessons->isEmpty())
+                                <div class=" text-center mt-3">
                                     No lessons available.
                                 </div>
                             @else
@@ -139,13 +157,14 @@
                                             </a>
 
                                             <form action="{{ route('lesson.delete', $lesson->id) }}" method="POST"
-                                                onsubmit="return confirm('Are you sure you want to delete this lesson?');">
+                                                class="delete-form btn-delete">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary btn-delete">
                                                     Delete
                                                 </button>
                                             </form>
+
                                         </div>
                                     </div>
                                 @endforeach
@@ -185,9 +204,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="course_id" class="form-label">Course Id</label>
-                        <input type="text" class="form-control" id="course_id" name="course_id" placeholder="course_id"
-                            required>
+                        <input type="hidden" id="course_id" name="course_id" value="{{ $id }}">
+
                         {{-- <input type="hidden" id="course_id" name="course_id" value="{{ $lesson->course_id }}"> --}}
                     </div>
 
@@ -267,22 +285,22 @@
 
             // Create a new div for the video details
             const newInputDiv = $(`
-                                                                                                                                                                        <div class="mb-3 border p-3" id="input-box-${inputCount}">
-                                                                                                                                                                            <div class="form-group">
-                                                                                                                                                                                <label for="video-title-${inputCount}">Video Title</label>
-                                                                                                                                                                                <input type="text" class="form-control" id="video-title-${inputCount}" placeholder="Video Title (${inputCount})">
-                                                                                                                                                                            </div>
-                                                                                                                                                                            <div class="form-group">
-                                                                                                                                                                                <label for="video-url-${inputCount}">Video URL</label>
-                                                                                                                                                                                <input type="text" class="form-control" id="video-url-${inputCount}" placeholder="Video URL (${inputCount})">
-                                                                                                                                                                            </div>
-                                                                                                                                                                            <div class="form-group">
-                                                                                                                                                                                <label for="duration-${inputCount}">Duration</label>
-                                                                                                                                                                                <input type="text" class="form-control" id="duration-${inputCount}" placeholder="Duration (${inputCount})">
-                                                                                                                                                                            </div>
-                                                                                                                                                                            <button class="btn btn-sm btn-danger delete-button mt-2" data-id="${inputCount}">Delete</button>
-                                                                                                                                                                        </div>
-                                                                                                                                                                    `);
+                                                                                                                                                                                                                                                                                                    <div class="mb-3 border p-3" id="input-box-${inputCount}">
+                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                            <label for="video-title-${inputCount}">Video Title</label>
+                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="video-title-${inputCount}" placeholder="Video Title (${inputCount})">
+                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                            <label for="video-url-${inputCount}">Video URL</label>
+                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="video-url-${inputCount}" placeholder="Video URL (${inputCount})">
+                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                            <label for="duration-${inputCount}">Duration</label>
+                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="duration-${inputCount}" placeholder="Duration (${inputCount})">
+                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                        <button class="btn btn-sm btn-danger delete-button mt-2" data-id="${inputCount}">Delete</button>
+                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                `);
 
             // Append the new input div to the bottom of the container, right above the plus button
             $('#input-container').append(newInputDiv);
@@ -335,7 +353,6 @@
                     lesson_title: $('#lesson_title').val(),
                     content: $('#content').val(),
                     videos: []
-
                 };
 
                 // Loop through each input box and collect values
@@ -361,29 +378,24 @@
                     method: 'POST',
                     data: lessonData,
                     success: function (response) {
-                        // Handle success response
-                        console.log('Data sent successfully:', response);
-                        alert('Lesson added successfully!');
-                        location.reload();
+                        $('.flash-container').html(`
+                                                                                                        <div class="row">
+                                                                                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                                                                                <strong><i class="fa-solid fa-circle-check me-2"></i>Lesson added successfully!</strong>
+                                                                                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    `);
 
-                        // // Now use the course ID from the response for the next AJAX call
-                        // var courseId = response
-                        //     .course_id; // Get the course ID from the response
+                        setTimeout(() => {
+                            $('.flash-container .alert').alert('close');
+                            location.reload();
 
-                        // // Fetch updated lessons after adding a new lesson
-                        // $.ajax({
-                        //     url: '{{ route('lesson.list', '') }}/' +
-                        //         courseId, // Use the course ID here
-                        //     method: 'GET',
-                        //     success: function(data) {
-                        //         $('#lessons-list-container').html(data);
-                        //     },
-                        //     error: function(xhr) {
-                        //         console.error(xhr);
-                        //         alert('Failed to fetch the updated lesson list.');
-                        //     }
-                        // });
+                        }, 300);
 
+                        $('#add-lesson-form').hide(); // Hide the form
+                        $('#add-lesson-btn').show(); // Show the "Add Lesson" button
+                        $('#list_card').show(); // Show the lesson list
                     },
                     error: function (xhr) {
                         console.error(xhr);

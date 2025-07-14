@@ -11,57 +11,73 @@
     <div class="row  mb-3">
         <div class="col-md-9">
             @if (session('createSuccess'))
-                <div class="row">
-                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('createSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            html: '<strong><i class="fa-solid fa-circle-check me-2"></i> {{ session('createSuccess') }}</strong>',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
 
             @if (session('updateSuccess'))
-                <div class="row">
-                    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('updateSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Updated!',
+                            html: '<strong><i class="fa-solid fa-circle-check me-2"></i> {{ session('updateSuccess') }}</strong>',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
 
             @if (session('deleteSuccess'))
-                <div class="row">
-                    <div class="alert alert-danger alert-dismissible fade show flash-message" role="alert">
-                        <strong><i class="fa-solid fa-circle-check me-2"></i>{{ session('deleteSuccess') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            html: '<strong><i class="fa-solid fa-circle-check me-2"></i> {{ session('deleteSuccess') }}</strong>',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
 
-            @if (session('instructor_id_error'))
-                <div class="row">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <strong>
-                            <i class="fa-solid fa-circle-check me-2"></i>
-                            {{ session('instructor_id_error') }}
-                        </strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-            @endif
             @if ($errors->any())
-                <div class="row">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li><i class="fa-solid fa-circle-xmark me-2"></i> {{ $error }}<button type="button"
-                                        class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </li>
-                            @endforeach
-
-                        </ul>
-                    </div>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Validation Errors',
+                            html: `{!! implode('<br>', $errors->all()) !!}`,
+                            timer: 4000,
+                            showConfirmButton: false
+                        });
+                    });
+                </script>
             @endif
+
+            @if ($errors->any())
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const courseModal = new bootstrap.Modal(document.getElementById('courseModal'));
+                        courseModal.show();
+                    });
+                </script>
+            @endif
+
+
+
+
 
 
         </div>
@@ -124,11 +140,10 @@
                                                 <i class="bi bi-pencil">Lession List</i>
                                             </a>
                                             <form action="{{ route('course.delete', $course->id) }}" method="POST"
-                                                style="margin:0em 0.5em;"
-                                                onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                style="margin:0em 0.5em;" class="btn-delete">
                                                 @csrf
                                                 @method('GET')
-                                                <button type="submit" class="btn btn-danger btn-md">
+                                                <button type="submit" class="btn btn-danger btn-md btn-delete">
                                                     <i class="bi bi-trash"></i> <!-- Font Awesome delete icon -->
                                                 </button>
                                             </form>
@@ -151,9 +166,9 @@
 
 
 <!-- Bootstrap Modal -->
-<div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true"
+<div class="col-lg-8 modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true"
     data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="courseModalLabel">Course Form</h5>
@@ -163,7 +178,11 @@
                     @csrf
                     <div class="mb-3">
                         <label for="instructor_id" class="form-label">Instructor Id</label>
-                        <input type="text" class="form-control" id="instructor_id" name="instructor_id" required>
+                        {{-- <input type="text" class="form-control" name="instructor_id" required> --}}
+
+                        <input type="text" id="instructor_id" name="instructor_id" class="form-control"
+                            value="{{ old('instructor_id') }}" required>
+
                     </div>
                     <div class="form-group">
                         <label for="category">Category</label>
@@ -179,16 +198,19 @@
 
                     <div class="mb-3">
                         <label for="course_title" class="form-label">Course Title</label>
-                        <input type="course_title" class="form-control" id="course_title" name="course_title" required>
+                        <input type="course_title" class="form-control" id="course_title" name="course_title"
+                            value="{{ old('course_title') }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        <textarea class="form-control" id="description" name="description" rows="3"
+                            value="{{ old('description') }}"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label">Price</label>
-                        <input type="price" class="form-control" id="price" name="price" required>
+                        <input type="price" class="form-control" id="price" name="price" value="{{ old('price') }}"
+                            required>
                     </div>
                     <div class="mb-3">
                         <div class="form-group">
