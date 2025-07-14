@@ -69,6 +69,25 @@ class CoursesController extends Controller
         // Fetch enrollment details where the course_id matches
         $enrollments = Enrollments::where('course_id', $course_id)->get();
 
+        //lessons details based on the course_id
+        $lessons = Lessons::where('course_id', $course_id)->get();
+
+        // Fetch all videos associated with the course's lessons
+        $videos = Videos::whereIn('lesson_id', $lessons->pluck('id'))->get();
+
+        // Fetch the user's enrollment record for the course
+        $user_id = auth()->id();
+        $enrollment = Enrollments::where('course_id', $course_id)
+                                    ->where('user_id', $user_id)
+                                    ->first();
+
+        // Check if the user is enrolled and the status is 'active' or 'complete'
+        $isEnrolled = $enrollment && in_array($enrollment->status, ['active', 'complete']);
+
+        // Fetch the user's enrollments for other courses
+        $otherEnrollments = Enrollments::where('user_id', $user_id)
+                                        ->where('status', 'active');
+
         // If you need the count of enrollments or specific details, add logic here
         $enrollmentCount = $enrollments->count();
 
@@ -78,6 +97,8 @@ class CoursesController extends Controller
             'category'        => $category,
             'enrollments'     => $enrollments,
             'enrollmentCount' => $enrollmentCount,
+            'videos'          => $videos,
+            'lessons'         => $lessons,
         ];
 
         // dd($data);
