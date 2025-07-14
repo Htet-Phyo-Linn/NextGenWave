@@ -1,19 +1,21 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CoursesController;
-use App\Http\Controllers\EnrollmentsController;
 use App\Http\Controllers\LessonsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
-use App\Http\Middleware\AdminAuthCheckMiddleware;
 use App\Http\Middleware\PreventBackHistory;
-use App\Http\Middleware\RoleMiddleware;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\EnrollmentsController;
+use App\Http\Middleware\AdminAuthCheckMiddleware;
+use App\Http\Controllers\AuthenticatedUserController;
 
 // public routes
-Route::view('/', 'welcome')->name('/');
+Route::get('/', [AuthenticatedUserController::class, 'index'])->name('/');
 Route::view('/contact', 'user.layouts.contact')->name('contact');
 Route::view('/about', 'user.layouts.about')->name('about');
 Route::view('/detail', 'user.layouts.courses_detail')->name('courses_detail');
@@ -107,7 +109,7 @@ Route::fallback(function () {
 });
 
 //logout Route
-use Illuminate\Support\Facades\Route;
+
 
 Route::post('/logout', function () {
     Auth::logout();

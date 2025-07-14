@@ -68,7 +68,7 @@
         <div class="container">
             <h1 class="display-4">Learn to Code, Build Your Future</h1>
             <p class="lead">Master in-demand programming skills with our project-based courses.</p>
-            <a href="courses.html" class="btn btn-primary btn-lg">Browse Courses</a>
+            <a href="{{ route('courses.index') }}" class="btn btn-primary btn-lg">Browse Courses</a>
         </div>
     </header>
 
@@ -77,57 +77,27 @@
         <div class="container">
             <h2 class="text-center mb-4">Featured Courses</h2>
             <div class="row">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card course-card h-100">
-                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            class="card-img-top" alt="Course Thumbnail">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Full-Stack Web Development</h5>
-                            <p class="card-text">Learn to build complete web applications from front-end to back-end.
-                            </p>
-                            <a href="course-details.html" class="btn btn-primary mt-auto">Enroll Now</a>
+                @forelse ($courses as $course)
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card course-card h-100">
+                            <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('images/default-course.png') }}"
+                                class="card-img-top" alt="Course Thumbnail">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ $course->title }}</h5>
+                                <p class="card-text">{{ $course->description }}</p>
+                                <a href="{{ route('courses.show', $course->id) }}"
+                                    class="btn btn-primary mt-auto">Enroll Now</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card course-card h-100">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            class="card-img-top" alt="Course Thumbnail">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Data Science with Python</h5>
-                            <p class="card-text">Explore data analysis, visualization, and machine learning with Python.
-                            </p>
-                            <a href="course-details.html" class="btn btn-primary mt-auto">Enroll Now</a>
-                        </div>
+                @empty
+                    <div class="col-12">
+                        <div class="alert alert-warning text-center">No courses available at the moment.</div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card course-card h-100">
-                        <img src="https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            class="card-img-top" alt="Course Thumbnail">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Mobile App Development</h5>
-                            <p class="card-text">Build beautiful and functional native mobile apps for iOS and Android.
-                            </p>
-                            <a href="course-details.html" class="btn btn-primary mt-auto">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card course-card h-100">
-                        <img src="https://images.unsplash.com/photo-1511376777868-611b54f68947?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            class="card-img-top" alt="Course Thumbnail">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Introduction to DevOps</h5>
-                            <p class="card-text">Improve software development speed and quality with DevOps principles.
-                            </p>
-                            <a href="course-details.html" class="btn btn-primary mt-auto">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
             <div class="text-center mt-4">
-                <a href="courses.html" class="btn btn-secondary">More Courses</a>
+                <a href="{{ route('courses.index') }}" class="btn btn-secondary">More Courses</a>
             </div>
         </div>
     </section>
