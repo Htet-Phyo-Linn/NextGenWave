@@ -28,7 +28,7 @@ class CoursesController extends Controller
         }
         $courses    = $query->paginate(8)->withQueryString();
         $categories = DB::table('categories')->get();
-
+        // dd($courses);
         return view('user.layouts.courses', compact('courses', 'categories'));
     }
 

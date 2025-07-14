@@ -12,8 +12,7 @@
                     <select name="category_id" class="form-select" onchange="this.form.submit()">
                         <option value="">All Categories</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
                             </option>
                         @endforeach
@@ -46,12 +45,13 @@
             @forelse ($courses as $course)
                 <div class="col-lg-3 col-md-6">
                     <div class="card h-100 border-0 shadow-sm course-card">
-                        <img src="{{ $course->image ? asset($course->image) : asset('images/default-course.png') }}"
+                        <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('images/default-course.png') }}"
                             class="card-img-top rounded-top" alt="Course Image">
 
                         <div class="card-body d-flex flex-column">
                             <h6 class="text-primary small text-uppercase fw-semibold mb-1">
-                                {{ $course->category_name ?? 'Uncategorized' }}</h6>
+                                {{ $course->category_name ?? 'Uncategorized' }}
+                            </h6>
                             <h5 class="card-title fw-bold">{{ $course->title }}</h5>
                             <p class="card-text small text-muted">{{ Str::limit($course->description, 80) }}</p>
                             <a href="{{ route('courses.show', $course->id) }}"
