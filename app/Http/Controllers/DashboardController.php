@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\Courses;
 use App\Models\Enrollments;
-use App\Models\Lessons;
 use App\Models\User;
-use App\Models\Videos;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -15,17 +14,27 @@ class DashboardController extends Controller
         $enrollmentCount = Enrollments::count();
         $userCount       = User::count();
         $courseCount     = Courses::count();
-        $lessonCount     = Lessons::count();
-        $videoCount      = Videos::count();
         $categoryCount   = Categories::count();
+        $completedCount  = Enrollments::where('status', 'completed')->count();
+
+        $userCreationData = User::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->groupBy('date')
+            ->orderBy('date', 'asc')
+            ->get();
+
+        $enrollmentData = Enrollments::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->groupBy('date')
+            ->orderBy('date', 'asc')
+            ->get();
 
         return view('dashboard', compact(
             'enrollmentCount',
             'userCount',
             'courseCount',
-            'lessonCount',
-            'videoCount',
-            'categoryCount'
+            'categoryCount',
+            'completedCount',
+            'userCreationData',
+            'enrollmentData'
         ));
     }
 }

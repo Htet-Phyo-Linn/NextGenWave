@@ -34,7 +34,10 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="./assets/compiled/svg/logo.svg" alt="Logo" srcset=""></a>
+                            <a href="{{ route('dashboard') }}" class="d-flex align-items-center">
+                                <img src="{{ asset('youth_sphere_logo.jpg') }}" alt="Logo" srcset="" style="height: 40px; width: 40px; border-radius: 50%;">
+                                <span class="ms-2 fs-5 fw-bold">Code LMS</span>
+                            </a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -77,41 +80,52 @@
 
                         <li class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                             <a class="sidebar-link" href="{{ route('dashboard') }}">
-                                <i class="bi bi-grid-fill"></i>
+                                <i class="bi bi-speedometer2"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
                         <li class="sidebar-item {{ request()->routeIs('admin.user.list') ? 'active' : '' }}">
                             <a class="sidebar-link" href="{{ route('admin.user.list') }}">
-                                <i class="bi bi-grid-fill"></i>
+                                <i class="bi bi-people-fill"></i>
                                 <span>User</span>
                             </a>
                         </li>
                         <li class="sidebar-item {{ request()->routeIs('admin.category.list') ? 'active' : '' }}">
                             <a class="sidebar-link" href="{{ route('admin.category.list') }}">
-                                <i class="bi bi-grid-fill"></i>
+                                <i class="bi bi-tags-fill"></i>
                                 <span>Category</span>
                             </a>
                         </li>
                         <li class="sidebar-item {{ request()->routeIs('admin.course.list') ? 'active' : '' }}">
                             <a class="sidebar-link" href="{{ route('admin.course.list') }}">
-                                <i class="bi bi-grid-fill"></i>
+                                <i class="bi bi-book-fill"></i>
                                 <span>Course</span>
                             </a>
                         </li>
                         <li class="sidebar-item {{ request()->routeIs('admin.enrollment.list') ? 'active' : '' }}">
                             <a class="sidebar-link" href="{{ route('admin.enrollment.list') }}">
-                                <i class="bi bi-grid-fill"></i>
+                                <i class="bi bi-card-checklist"></i>
                                 <span>Enrollment</span>
                             </a>
                         </li>
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link text-white text-decoration-none p-0"
-                                style="border: none; background: none;">
-                                Logout
-                            </button>
-                        </form>
+
+                        <li class="sidebar-title">Account Settings</li>
+
+                        <li class="sidebar-item">
+                            <a href="{{ route('profile.show') }}" class="sidebar-link">
+                                <i class="bi bi-person-circle"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="sidebar-link btn btn-link text-decoration-none p-0" style="border: none; background: none; width: 100%; text-align: left; padding-left: 1.5rem !important;">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>
