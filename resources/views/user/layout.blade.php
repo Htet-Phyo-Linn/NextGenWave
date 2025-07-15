@@ -36,6 +36,9 @@
                         <a class="nav-link" href="{{ route('contact')}}">Contact</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('profile.show')}}">Profile</a>
+                    </li>
+                    <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" class="nav-link btn btn-link nav-link text-decoration-none p-0"
