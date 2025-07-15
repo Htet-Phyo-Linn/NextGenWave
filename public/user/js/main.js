@@ -20,3 +20,5 @@ function switchTheme(e) {
 }
 
 themeSwitcher.addEventListener('change', switchTheme, false);
+
+
