@@ -69,12 +69,12 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('user.list')->with(['updateSuccess' => 'Successfully updated ...']);
+        return redirect()->route('admin.user.list')->with(['updateSuccess' => 'Successfully updated ...']);
     }
 
     public function delete($id)
     {
         user::where('id', $id)->delete();
-        return redirect()->route('user.list')->with(['deleteSuccess' => 'Successfully deleted ...']);
+        return redirect()->route('admin.user.list')->with(['deleteSuccess' => 'Successfully deleted ...']);
     }
 }

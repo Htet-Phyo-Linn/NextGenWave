@@ -58,7 +58,7 @@ class EnrollmentsController extends Controller
     public function delete($id)
     {
         Enrollments::where('id', $id)->delete();
-        return redirect()->route('enrollment.list')->with(['deleteSuccess' => 'Successfully deleted ...']);
+        return redirect()->route('admin.enrollment.list')->with(['deleteSuccess' => 'Successfully deleted ...']);
     }
 
     public function update(Request $request, $id)

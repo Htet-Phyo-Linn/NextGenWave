@@ -52,12 +52,12 @@ class CategoriesController extends Controller
             'description' => $validatedData['description'],
         ]);
 
-        return redirect()->route('category.list')->with(['updateSuccess' => 'Successfully updated ...']);
+        return redirect()->route('admin.category.list')->with(['updateSuccess' => 'Successfully updated ...']);
     }
 
     public function delete($id)
     {
         categories::where('id', $id)->delete();
-        return redirect()->route('category.list')->with(['deleteSuccess' => 'Successfully deleted ...']);
+        return redirect()->route('admin.category.list')->with(['deleteSuccess' => 'Successfully deleted ...']);
     }
 }

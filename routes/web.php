@@ -1,119 +1,159 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthenticatedUserController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\EnrollmentsController;
 use App\Http\Controllers\LessonsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\PreventBackHistory;
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\EnrollmentsController;
-use App\Http\Middleware\AdminAuthCheckMiddleware;
-use App\Http\Controllers\AuthenticatedUserController;
+use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
-// public routes
-Route::get('/', [AuthenticatedUserController::class, 'index'])->name('/');
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/', [AuthenticatedUserController::class, 'index'])->name('home');
 Route::view('/contact', 'user.layouts.contact')->name('contact');
 Route::view('/about', 'user.layouts.about')->name('about');
+
+// Public Course Routes
+Route::prefix('course')->name('courses.')->group(function () {
+    Route::get('/', [CoursesController::class, 'index'])->name('index');
+    Route::get('/{id}', [CoursesController::class, 'course_detail'])->name('show');
+});
+
+// Legacy routes (consider removing these if not used)
 Route::view('/detail', 'user.layouts.courses_detail')->name('courses_detail');
 Route::view('/lessons', 'user.layouts.course_lessons')->name('course.lessons');
 
-Route::get('/course', [CoursesController::class, 'index'])->name('courses.index');
-Route::get('/course/{id}', [CoursesController::class, 'course_detail'])->name('courses.show');
-
-// no dashboard, using route to split admin and user
-Route::get('/dashboard', function () {
-})->middleware(['auth', 'verified', PreventBackHistory::class, AdminAuthCheckMiddleware::class])->name('dashboard');
-
-Route::get('loginPage', [AdminAuthCheckMiddleware::class, AuthController::class, 'loginPage'])->name('auth#loginPage');
-Route::get('registerPage', [AdminAuthCheckMiddleware::class, AuthController::class, 'registerPage'])->name('auth#registerPage');
-
-// Routes that require authentication and role checking
-Route::middleware([PreventBackHistory::class, 'auth', 'verified', RoleMiddleware::class])->group(function () {
-    Route::prefix('user')->group(function () {
-        Route::prefix('course')->group(function () {
-            Route::get('lesson/{id}', [CoursesController::class, 'course_lessons'])->name('course.lessons');
-        });
-    });
-
-    Route::prefix('admin')->group(function () {
-        Route::get('dashboard', function () {
-            return view('dashboard');
-        })->name('admin.dashboard');
-
-        Route::prefix('user')->group(function () {
-            Route::get('list', [UserController::class, 'list'])->name('user.list');
-            Route::post('create', [UserController::class, 'create'])->name('user.create');
-
-            Route::post('edit', [UserController::class, 'edit'])->name('user.edit');
-            Route::get('edit/{id}', [UserController::class, 'editPage'])->name('user.editPage');
-
-            Route::get('delete/{id}', [UserController::class, 'delete'])->name('user.delete');
-        });
-
-        Route::prefix('category')->group(function () {
-            Route::get('list', [CategoriesController::class, 'list'])->name('category.list');
-            Route::post('create', [CategoriesController::class, 'create'])->name('category.create');
-
-            Route::post('edit', [CategoriesController::class, 'edit'])->name('category.edit');
-            Route::get('edit/{id}', [CategoriesController::class, 'editPage'])->name('category.editPage');
-
-            Route::get('delete/{id}', [CategoriesController::class, 'delete'])->name('category.delete');
-        });
-
-        Route::prefix('course')->group(function () {
-            Route::get('list', [CoursesController::class, 'list'])->name('course.list');
-            Route::post('create', [CoursesController::class, 'create'])->name('course.create');
-
-            Route::post('edit', [CoursesController::class, 'edit'])->name('course.edit');
-            Route::get('edit/{id}', [CoursesController::class, 'editPage'])->name('course.editPage');
-
-            Route::get('delete/{id}', [CoursesController::class, 'delete'])->name('course.delete');
-        });
-
-        Route::prefix('lesson')->group(function () {
-            Route::post('listUpdate', [LessonsController::class, 'listUpdate'])->name('lesson.listUpdate');
-            Route::get('list/{id}', [LessonsController::class, 'list'])->name('lesson.list');
-            Route::post('create', [LessonsController::class, 'create'])->name('lesson.create');
-
-            Route::post('edit', [LessonsController::class, 'edit'])->name('lesson.edit');
-            Route::get('edit/{id}', [LessonsController::class, 'editPage'])->name('lesson.editPage');
-
-            Route::delete('delete/{id}', [LessonsController::class, 'delete'])->name('lesson.delete');
-        });
-
-        Route::prefix('enrollment')->group(function () {
-            Route::get('list', [EnrollmentsController::class, 'list'])->name('enrollment.list');
-            Route::post('create', [EnrollmentsController::class, 'create'])->name('enrollment.create');
-
-            Route::post('edit', [EnrollmentsController::class, 'edit'])->name('enrollment.edit');
-            Route::get('edit/{id}', [EnrollmentsController::class, 'editPage'])->name('enrollment.editPage');
-            Route::put('{id}/update', [EnrollmentsController::class, 'update'])->name('enrollment.update');
-
-            Route::get('delete/{id}', [EnrollmentsController::class, 'delete'])->name('enrollment.delete');
-        });
-    });
-
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-});
-
-Route::fallback(function () {
-    return redirect()->route('dashboard'); // Redirect to dashboard for undefined routes
-});
-
-//logout Route
-
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('loginPage', [AuthController::class, 'loginPage'])->name('auth.loginPage');
+Route::get('registerPage', [AuthController::class, 'registerPage'])->name('auth.registerPage');
 
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
 
+/*
+|--------------------------------------------------------------------------
+| Dashboard Route (Redirects based on role)
+|--------------------------------------------------------------------------
+*/
+Route::get('/dashboard', function () {
+    $user = Auth::user();
+
+    if ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return redirect()->route('home');
+})->middleware(['auth', 'verified', PreventBackHistory::class])->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Authenticated User Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified', PreventBackHistory::class])->group(function () {
+    // Profile Routes
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'show'])->name('show');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+    });
+
+    // User Course Routes
+    Route::middleware([RoleMiddleware::class])->prefix('user')->name('user.')->group(function () {
+        Route::prefix('course')->name('course.')->group(function () {
+            Route::get('lesson/{id}', [CoursesController::class, 'course_lessons'])->name('lessons');
+        });
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified', PreventBackHistory::class, RoleMiddleware::class])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        // Admin Dashboard
+        Route::get('dashboard', function () {
+            return view('dashboard');
+        })->name('dashboard');
+
+        // User Management
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::get('list', [UserController::class, 'list'])->name('list');
+            Route::post('create', [UserController::class, 'create'])->name('create');
+            Route::get('edit/{id}', [UserController::class, 'editPage'])->name('editPage');
+            Route::post('edit', [UserController::class, 'edit'])->name('edit');
+            Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete');
+        });
+
+        // Category Management
+        Route::prefix('category')->name('category.')->group(function () {
+            Route::get('list', [CategoriesController::class, 'list'])->name('list');
+            Route::post('create', [CategoriesController::class, 'create'])->name('create');
+            Route::get('edit/{id}', [CategoriesController::class, 'editPage'])->name('editPage');
+            Route::post('edit', [CategoriesController::class, 'edit'])->name('edit');
+            Route::delete('delete/{id}', [CategoriesController::class, 'delete'])->name('delete');
+        });
+
+        // Course Management
+        Route::prefix('course')->name('course.')->group(function () {
+            Route::get('list', [CoursesController::class, 'list'])->name('list');
+            Route::post('create', [CoursesController::class, 'create'])->name('create');
+            Route::get('edit/{id}', [CoursesController::class, 'editPage'])->name('editPage');
+            Route::post('edit', [CoursesController::class, 'edit'])->name('edit');
+            Route::delete('delete/{id}', [CoursesController::class, 'delete'])->name('delete');
+        });
+
+        // Lesson Management
+        Route::prefix('lesson')->name('lesson.')->group(function () {
+            Route::get('list/{id}', [LessonsController::class, 'list'])->name('list');
+            Route::post('listUpdate', [LessonsController::class, 'listUpdate'])->name('listUpdate');
+            Route::post('create', [LessonsController::class, 'create'])->name('create');
+            Route::get('edit/{id}', [LessonsController::class, 'editPage'])->name('editPage');
+            Route::post('edit', [LessonsController::class, 'edit'])->name('edit');
+            Route::delete('delete/{id}', [LessonsController::class, 'delete'])->name('delete');
+        });
+
+        // Enrollment Management
+        Route::prefix('enrollment')->name('enrollment.')->group(function () {
+            Route::get('list', [EnrollmentsController::class, 'list'])->name('list');
+            Route::post('create', [EnrollmentsController::class, 'create'])->name('create');
+            Route::get('edit/{id}', [EnrollmentsController::class, 'editPage'])->name('editPage');
+            Route::post('edit', [EnrollmentsController::class, 'edit'])->name('edit');
+            Route::put('{id}/update', [EnrollmentsController::class, 'update'])->name('update');
+            Route::delete('delete/{id}', [EnrollmentsController::class, 'delete'])->name('delete');
+        });
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Fallback Route
+|--------------------------------------------------------------------------
+*/
+Route::fallback(function () {
+    return redirect()->route('dashboard');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
 require __DIR__ . '/auth.php';

@@ -115,25 +115,41 @@ class LessonsController extends Controller
             'content' => $validated['content'],
         ]);
 
-        // Update each video related to the lesson
-        if (isset($validated['video_ids'])) {
-            foreach ($validated['video_ids'] as $index => $videoId) {
-                // Find the video by ID
+        // Update each video related to the lesson and add new videos
+        $videoIds       = $validated['video_ids'] ?? [];
+        $videoTitles    = $validated['video_titles'];
+        $videoUrls      = $validated['video_urls'];
+        $videoDurations = $validated['video_durations'] ?? [];
+
+        foreach ($videoTitles as $index => $title) {
+            $videoId   = $videoIds[$index] ?? null;
+            $url       = $videoUrls[$index];
+            $duration  = $videoDurations[$index] ?? null;
+            $iframeUrl = $this->convertToIframeLink($url);
+
+            if ($videoId) {
+                // Update existing video
                 $video = Videos::find($videoId);
                 if ($video) {
-                    $iframeUrl = $this->convertToIframeLink($validated['video_urls'][$index]);
-                    // Update the video with the new data
                     $video->update([
-                        'title'     => $validated['video_titles'][$index],
+                        'title'     => $title,
                         'video_url' => $iframeUrl,
-                        'duration'  => $validated['video_durations'][$index] ?? null,
+                        'duration'  => $duration,
                     ]);
                 }
+            } else {
+                // Create new video
+                Videos::create([
+                    'lesson_id' => $lesson->id,
+                    'title'     => $title,
+                    'video_url' => $iframeUrl,
+                    'duration'  => $duration,
+                ]);
             }
         }
 
         // After successfully updating the lesson and videos
-        return redirect()->route('lesson.list', ['id' => $courseId])->with(['updateSuccess' => 'Course updated successfully.']);
+        return redirect()->route('admin.lesson.list', ['id' => $courseId])->with(['updateSuccess' => 'Course updated successfully.']);
     }
 
     public function editPage($id)
@@ -170,7 +186,7 @@ class LessonsController extends Controller
         $lesson->delete();
 
         // Step 5: Return a response or redirect
-        return redirect()->route('lesson.list', ['id' => $lesson->course_id])->with('success', 'Lesson and associated videos deleted successfully.');
+        return redirect()->route('admin.lesson.list', ['id' => $lesson->course_id])->with('success', 'Lesson and associated videos deleted successfully.');
     }
 
 }

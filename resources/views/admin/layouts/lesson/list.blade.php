@@ -152,11 +152,12 @@
                                             @endforeach
                                         </div>
                                         <div class="d-flex justify-content-end gap-2  mx-auto">
-                                            <a href="{{ route('lesson.editPage', $lesson->id) }}" class="btn btn-sm btn-secondary">
+                                            <a href="{{ route('admin.lesson.editPage', $lesson->id) }}"
+                                                class="btn btn-sm btn-secondary">
                                                 Edit
                                             </a>
 
-                                            <form action="{{ route('lesson.delete', $lesson->id) }}" method="POST"
+                                            <form action="{{ route('admin.lesson.delete', $lesson->id) }}" method="POST"
                                                 class="delete-form btn-delete">
                                                 @csrf
                                                 @method('DELETE')
@@ -185,7 +186,7 @@
 
     <script>
         function redirectToCourse() {
-            window.location.href = "{{ route('course.list') }}"; // Change this to your actual route
+            window.location.href = "{{ route('admin.course.list') }}"; // Change this to your actual route
         }
     </script>
 
@@ -258,6 +259,7 @@
             title.addEventListener('click', function () {
                 const lessonId = this.dataset.lessonId; // Get the course ID
                 const lessonList = document.getElementById(`videos-${lessonId}`);
+                const button = this;
 
                 // Toggle visibility of the lesson list
                 if (lessonList.style.display === 'none' || lessonList.style.display === '') {
@@ -265,11 +267,46 @@
                     document.querySelectorAll('.video-list').forEach(list => {
                         list.style.display = 'none';
                     });
+                    // Reset all buttons text to "Show Video"
+                    document.querySelectorAll('.lesson-list').forEach(btn => {
+                        btn.textContent = btn.textContent.replace('Hide Video', 'Show Video');
+                    });
                     // Show the selected lesson list
                     lessonList.style.display = 'block';
+                    // Change button text to "Hide Video"
+                    button.textContent = button.textContent.replace('Show Video', 'Hide Video');
                 } else {
                     // Hide the lesson list if it's already visible
                     lessonList.style.display = 'none';
+                    // Change button text to "Show Video"
+                    button.textContent = button.textContent.replace('Hide Video', 'Show Video');
+                }
+            });
+        });
+
+        // Use Bootstrap collapse events to toggle button text and pause video on hide
+        document.querySelectorAll('.collapse').forEach(collapseEl => {
+            collapseEl.addEventListener('shown.bs.collapse', function () {
+                const btn = document.querySelector(`button[data-bs-target="#${this.id}"]`);
+                if (btn) {
+                    btn.textContent = 'Hide Video';
+                    btn.classList.remove('collapsed');
+                    btn.setAttribute('aria-expanded', 'true');
+                }
+            });
+            collapseEl.addEventListener('hidden.bs.collapse', function () {
+                const btn = document.querySelector(`button[data-bs-target="#${this.id}"]`);
+                if (btn) {
+                    btn.textContent = 'Show Video';
+                    btn.classList.add('collapsed');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+                // Pause the video iframe when hidden
+                const iframe = this.querySelector('iframe');
+                if (iframe) {
+                    const src = iframe.src;
+                    iframe.src = '';
+                    iframe.src = src;
                 }
             });
         });
@@ -285,22 +322,22 @@
 
             // Create a new div for the video details
             const newInputDiv = $(`
-                                                                                                                                                                                                                                                                                                    <div class="mb-3 border p-3" id="input-box-${inputCount}">
-                                                                                                                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                                                                                                                            <label for="video-title-${inputCount}">Video Title</label>
-                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="video-title-${inputCount}" placeholder="Video Title (${inputCount})">
-                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                                                                                                                            <label for="video-url-${inputCount}">Video URL</label>
-                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="video-url-${inputCount}" placeholder="Video URL (${inputCount})">
-                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                                                                                                                            <label for="duration-${inputCount}">Duration</label>
-                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="duration-${inputCount}" placeholder="Duration (${inputCount})">
-                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                        <button class="btn btn-sm btn-danger delete-button mt-2" data-id="${inputCount}">Delete</button>
-                                                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                                                `);
+                                                                                                                                                                                                                                                                                                                    <div class="mb-3 border p-3" id="input-box-${inputCount}">
+                                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                                            <label for="video-title-${inputCount}">Video Title</label>
+                                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="video-title-${inputCount}" placeholder="Video Title (${inputCount})">
+                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                                            <label for="video-url-${inputCount}">Video URL</label>
+                                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="video-url-${inputCount}" placeholder="Video URL (${inputCount})">
+                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                                            <label for="duration-${inputCount}">Duration</label>
+                                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="duration-${inputCount}" placeholder="Duration (${inputCount})">
+                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                        <button class="btn btn-sm btn-danger delete-button mt-2" data-id="${inputCount}">Delete</button>
+                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                `);
 
             // Append the new input div to the bottom of the container, right above the plus button
             $('#input-container').append(newInputDiv);
@@ -374,18 +411,18 @@
 
                 $.ajax({
                     // url: '/manager/lesson/listUpdate',
-                    url: '{{ route('lesson.listUpdate') }}',
+                    url: '{{ route('admin.lesson.listUpdate') }}',
                     method: 'POST',
                     data: lessonData,
                     success: function (response) {
                         $('.flash-container').html(`
-                                                                                                        <div class="row">
-                                                                                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                                                                                                <strong><i class="fa-solid fa-circle-check me-2"></i>Lesson added successfully!</strong>
-                                                                                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    `);
+                                                                                                                        <div class="row">
+                                                                                                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                                                                                                <strong><i class="fa-solid fa-circle-check me-2"></i>Lesson added successfully!</strong>
+                                                                                                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    `);
 
                         setTimeout(() => {
                             $('.flash-container .alert').alert('close');

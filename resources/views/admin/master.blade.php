@@ -81,26 +81,26 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="sidebar-item {{ request()->routeIs('user.list') ? 'active' : '' }}">
-                            <a class="sidebar-link" href="{{ route('user.list') }}">
+                        <li class="sidebar-item {{ request()->routeIs('admin.user.list') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('admin.user.list') }}">
                                 <i class="bi bi-grid-fill"></i>
                                 <span>User</span>
                             </a>
                         </li>
-                        <li class="sidebar-item {{ request()->routeIs('category.list') ? 'active' : '' }}">
-                            <a class="sidebar-link" href="{{ route('category.list') }}">
+                        <li class="sidebar-item {{ request()->routeIs('admin.category.list') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('admin.category.list') }}">
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Category</span>
                             </a>
                         </li>
-                        <li class="sidebar-item {{ request()->routeIs('course.list') ? 'active' : '' }}">
-                            <a class="sidebar-link" href="{{ route('course.list') }}">
+                        <li class="sidebar-item {{ request()->routeIs('admin.course.list') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('admin.course.list') }}">
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Course</span>
                             </a>
                         </li>
-                        <li class="sidebar-item {{ request()->routeIs('enrollment.list') ? 'active' : '' }}">
-                            <a class="sidebar-link" href="{{ route('enrollment.list') }}">
+                        <li class="sidebar-item {{ request()->routeIs('admin.enrollment.list') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('admin.enrollment.list') }}">
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Enrollment</span>
                             </a>
@@ -158,11 +158,11 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Attach click event to all delete buttons
-            document.querySelectorAll('.btn-delete').forEach(function (button) {
-                button.addEventListener('click', function (e) {
+            // Attach submit event to all delete forms
+            document.querySelectorAll('form.btn-delete').forEach(function (form) {
+                form.addEventListener('submit', function (e) {
                     e.preventDefault();
-                    const form = this.closest('form');
+                    const formElement = this;
 
                     Swal.fire({
                         title: 'Delete Confirmation',
@@ -175,7 +175,7 @@
                         cancelButtonText: 'Cancel'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit();
+                            formElement.submit();
                         }
                     });
                 });

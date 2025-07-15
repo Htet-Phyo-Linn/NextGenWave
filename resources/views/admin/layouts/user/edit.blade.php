@@ -11,7 +11,7 @@
                     <p class="card-description">
                         Be Careful
                     </p>
-                    <form class="forms-sample" action="{{ route('user.edit') }}" method="POST">
+                    <form class="forms-sample" action="{{ route('admin.user.edit') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="name" class="form-label">Name</label>

@@ -131,18 +131,18 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <!-- Edit Button -->
-                                            <a href="{{ route('course.editPage', $course->id) }}" style="margin:0em 0.5em;"
-                                                class="btn btn-dark btn-md">
+                                            <a href="{{ route('admin.course.editPage', $course->id) }}"
+                                                style="margin:0em 0.5em;" class="btn btn-dark btn-md">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <a href="{{ route('lesson.list', $course->id) }}" style="margin:0em 0.5em;"
+                                            <a href="{{ route('admin.lesson.list', $course->id) }}" style="margin:0em 0.5em;"
                                                 class="btn btn-dark btn-md">
                                                 <i class="bi bi-pencil">Lession List</i>
                                             </a>
-                                            <form action="{{ route('course.delete', $course->id) }}" method="POST"
+                                            <form action="{{ route('admin.course.delete', $course->id) }}" method="POST"
                                                 style="margin:0em 0.5em;" class="btn-delete">
                                                 @csrf
-                                                @method('GET')
+                                                @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-md btn-delete">
                                                     <i class="bi bi-trash"></i> <!-- Font Awesome delete icon -->
                                                 </button>
@@ -174,7 +174,8 @@
                 <h5 class="modal-title" id="courseModalLabel">Course Form</h5>
             </div>
             <div class="modal-body">
-                <form id="courseForm" action="{{ route('course.create') }}" method="POST" enctype="multipart/form-data">
+                <form id="courseForm" action="{{ route('admin.course.create') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="instructor_id" class="form-label">Instructor Id</label>

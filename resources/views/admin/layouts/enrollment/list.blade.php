@@ -113,10 +113,10 @@
 
 
 
-                                            <form action="{{ route('enrollment.delete', $enrollment->id) }}" method="POST"
+                                            <form action="{{ route('admin.enrollment.delete', $enrollment->id) }}" method="POST"
                                                 style="margin:0em 0.5em;" class="btn-delete">
                                                 @csrf
-                                                @method('GET')
+                                                @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-md">
                                                     <i class="bi bi-trash"></i> <!-- Font Awesome delete icon -->
                                                 </button>
@@ -185,7 +185,7 @@
     data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('enrollment.create') }}" method="POST">
+            <form action="{{ route('admin.enrollment.create') }}" method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="enrollmentModalLabel">Enroll Student</h5>

@@ -76,17 +76,17 @@ class CoursesController extends Controller
         $videos = Videos::whereIn('lesson_id', $lessons->pluck('id'))->get();
 
         // Fetch the user's enrollment record for the course
-        $user_id = auth()->id();
+        $user_id    = auth()->id();
         $enrollment = Enrollments::where('course_id', $course_id)
-                                    ->where('user_id', $user_id)
-                                    ->first();
+            ->where('user_id', $user_id)
+            ->first();
 
         // Check if the user is enrolled and the status is 'active' or 'complete'
         $isEnrolled = $enrollment && in_array($enrollment->status, ['active', 'complete']);
 
         // Fetch the user's enrollments for other courses
         $otherEnrollments = Enrollments::where('user_id', $user_id)
-                                        ->where('status', 'active');
+            ->where('status', 'active');
 
         // If you need the count of enrollments or specific details, add logic here
         $enrollmentCount = $enrollments->count();
@@ -251,7 +251,7 @@ class CoursesController extends Controller
         // Find the instructor
         $user = User::find($request->instructor_id);
         if (! $user) {
-            return redirect()->route('course.list')
+            return redirect()->route('admin.course.list')
                 ->with('instructor_id_error', 'Instructor ID not found')
                 ->withInput();
         }
@@ -259,7 +259,7 @@ class CoursesController extends Controller
         // Find the course to update
         $course = Courses::find($request->id);
         if (! $course) {
-            return redirect()->route('course.list')
+            return redirect()->route('admin.course.list')
                 ->with('course_id_error', 'Course not found')
                 ->withInput();
         }
@@ -283,13 +283,13 @@ class CoursesController extends Controller
         $course->update($data);
 
         // Redirect with success message
-        return redirect()->route('course.list')->with(['updateSuccess' => 'Course updated successfully.']);
+        return redirect()->route('admin.course.list')->with(['updateSuccess' => 'Course updated successfully.']);
     }
 
     public function delete($id)
     {
         courses::where('id', $id)->delete();
-        return redirect()->route('course.list')->with(['deleteSuccess' => 'Course successfully deleted ...']);
+        return redirect()->route('admin.course.list')->with(['deleteSuccess' => 'Course successfully deleted ...']);
     }
 
 }

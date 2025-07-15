@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('/') }}">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('courses.index') }}">Courses</a>
@@ -85,8 +85,8 @@
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">{{ $course->title }}</h5>
                                 <p class="card-text">{{ $course->description }}</p>
-                                <a href="{{ route('courses.show', $course->id) }}"
-                                    class="btn btn-primary mt-auto">Enroll Now</a>
+                                <a href="{{ route('courses.show', $course->id) }}" class="btn btn-primary mt-auto">Enroll
+                                    Now</a>
                             </div>
                         </div>
                     </div>

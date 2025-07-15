@@ -107,14 +107,14 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <!-- Edit Button -->
-                                            <a href="{{ route('user.editPage', $user->id) }}" style="margin:0em 0.5em;"
+                                            <a href="{{ route('admin.user.editPage', $user->id) }}" style="margin:0em 0.5em;"
                                                 class="btn btn-dark btn-md">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <form action="{{ route('user.delete', $user->id) }}" method="POST"
+                                            <form action="{{ route('admin.user.delete', $user->id) }}" method="POST"
                                                 style="margin:0em 0.5em;" class="btn-delete">
                                                 @csrf
-                                                @method('GET')
+                                                @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-md">
                                                     <i class="bi bi-trash"></i> <!-- Font Awesome delete icon -->
                                                 </button>
@@ -143,7 +143,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="userModalLabel">User Form</h5>
             </div>
-            <form id="userForm" action="{{ route('user.create') }}" method="POST">
+            <form id="userForm" action="{{ route('admin.user.create') }}" method="POST">
                 @csrf
                 <div class="modal-body">
 

@@ -98,8 +98,8 @@
                                         <div class="d-flex align-items-center">
 
                                             <!-- Edit Button -->
-                                            <a href="{{ route('category.editPage', $category->id) }}" style="margin:0em 0.5em;"
-                                                class="btn btn-dark btn-md">
+                                            <a href="{{ route('admin.category.editPage', $category->id) }}"
+                                                style="margin:0em 0.5em;" class="btn btn-dark btn-md">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             <!-- Delete Button -->
@@ -108,10 +108,10 @@
                                                 class="btn btn-secondary btn-md">
                                                 <i class="fas fa-trash"></i> <!-- Font Awesome edit icon -->
                                             </a> --}}
-                                            <form action="{{ route('category.delete', $category->id) }}" method="POST"
+                                            <form action="{{ route('admin.category.delete', $category->id) }}" method="POST"
                                                 style="margin:0em 0.5em;" class="btn-delete">
                                                 @csrf
-                                                @method('GET')
+                                                @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-md">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
@@ -140,7 +140,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="categoryModalLabel">Category Form</h5>
             </div>
-            <form id="categoryForm" action="{{ route('category.create') }}" method="POST">
+            <form id="categoryForm" action="{{ route('admin.category.create') }}" method="POST">
                 @csrf
                 <div class="modal-body">
 

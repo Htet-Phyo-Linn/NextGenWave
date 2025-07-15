@@ -31,7 +31,7 @@
                         Be Careful
 
                     </p>
-                    <form class="forms-sample" action="{{ route('course.edit') }}" method="POST"
+                    <form class="forms-sample" action="{{ route('admin.course.edit') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
