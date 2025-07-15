@@ -6,8 +6,8 @@
         style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1742&auto=format&fit=crop'); background-size: cover; background-position: center; height: 60vh;">
         <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.6);"></div>
         <div class="container h-100 d-flex flex-column justify-content-center align-items-center position-relative z-1">
-            <h1 class="display-4 fw-bold">Get in Touch</h1>
-            <p class="lead">We'd love to hear from you. Please fill out the form below to contact us.</p>
+            <h1 class="display-4 fw-bold">Welcome to Your Next Learning Adventure</h1>
+            <p class="lead">Discover what this course has to offer and unlock your full potential.</p>
         </div>
     </header>
     <div class="container py-5">
@@ -21,7 +21,8 @@
                     <select name="category_id" class="form-select" onchange="this.form.submit()">
                         <option value="">All Categories</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                            <option value="{{ $category->id }}"
+                                {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
                             </option>
                         @endforeach

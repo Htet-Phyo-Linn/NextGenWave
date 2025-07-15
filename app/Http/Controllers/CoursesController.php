@@ -146,23 +146,21 @@ class CoursesController extends Controller
             return view('errors.enrollment_error'); // Create a view at resources/views/errors/enrollment_error.blade.php
         }
 
-        // Fetch the course details
-        $course = Courses::find($course_id);
-
         // Fetch all lessons for the course
-        $lessons = Lessons::where('course_id', $course_id)->get();
+        $lessons = Lessons::where('course_id', $id)->get();
 
-        // Fetch all videos for each lesson
+        $course = Courses::with(['lessons.videos', 'instructor'])->findOrFail($id);
+
+        // Re-structure videos per lesson ID
         $videos = [];
-        foreach ($lessons as $lesson) {
-            $lessonVideos        = Videos::where('lesson_id', $lesson->id)->get();
-            $videos[$lesson->id] = $lessonVideos;
+        foreach ($course->lessons as $lesson) {
+            $videos[$lesson->id] = $lesson->videos;
         }
 
         // Prepare data for the view
         $data = [
             'course'  => $course,
-            'lessons' => $lessons,
+            'lessons' => $course->lessons,
             'videos'  => $videos, // Pass videos data
         ];
 
@@ -292,4 +290,19 @@ class CoursesController extends Controller
         return redirect()->route('admin.course.list')->with(['deleteSuccess' => 'Course successfully deleted ...']);
     }
 
+    public function lessons($id)
+    {
+        $course = Courses::find($id);
+
+        $lessons = Lessons::where('course_id', $course->id)->get();
+
+        $videos = Videos::whereIn('lesson_id', $lessons->pluck('id'))
+            ->get()
+            ->groupBy('lesson_id');
+
+        // Calculate progress (example: percentage of completed lessons)
+        $progress = 15; // replace with actual logic if needed
+
+        return view('user.layouts.course_lessons', compact('course', 'lessons', 'videos', 'progress'));
+    }
 }

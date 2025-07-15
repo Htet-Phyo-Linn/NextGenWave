@@ -35,10 +35,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('contact') }}">Contact</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('profile.show')}}">Profile</a>
-                    </li>
+
                     @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile.show') }}">Profile</a>
+                        </li>
                         <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
@@ -88,7 +89,8 @@
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">{{ $course->title }}</h5>
                                 <p class="card-text">{{ $course->description }}</p>
-                                <a href="{{ route('courses.show', $course->id) }}" class="btn btn-primary mt-auto">Enroll
+                                <a href="{{ route('courses.show', $course->id) }}"
+                                    class="btn btn-primary mt-auto">Enroll
                                     Now</a>
                             </div>
                         </div>
