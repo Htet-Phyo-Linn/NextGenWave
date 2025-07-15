@@ -48,6 +48,15 @@ body {
     color: var(--text-color);
 }
 
+#course-title {
+  color: var(--text-light);
+  transition: color 0.3s ease;
+}
+
+body[data-theme="dark"] #course-title {
+  color: #fff; /* full white for dark mode */
+}
+
 /* Navbar */
 .navbar {
     background-color: var(--dark-color) !important;
