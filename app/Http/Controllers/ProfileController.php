@@ -19,16 +19,19 @@ class ProfileController extends Controller
 
     public function show()
     {
-        $user = Auth::user();
+         $user = Auth::user();
 
-        // Example enrolled courses array — replace with actual user courses from DB if you have
-        $enrolledCourses = [
-            ['title' => 'Full-Stack Web Development', 'status' => 'In Progress'],
-            ['title' => 'Data Science Bootcamp', 'status' => 'Not Started'],
-            ['title' => 'JavaScript Essentials', 'status' => 'In Progress'],
-        ];
+        $enrolledCourses = $user->enrollments()
+        ->with('course')
+        ->get()
+        ->map(function ($enrollment) {
+            return [
+                'title' => $enrollment->course->title ?? 'Unknown Course',
+                'status' => $enrollment->status,
+            ];
+        });
 
-        return view('profile.show', compact('user', 'enrolledCourses'));
+    return view('profile.show', compact('user', 'enrolledCourses'));
     }
 
     public function update(Request $request)
