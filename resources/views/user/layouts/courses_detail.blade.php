@@ -22,8 +22,12 @@
                 <div class="col-md-4 text-md-end mt-4 mt-md-0">
                     <h2>{{ $course->price }} mmk</h2>
                     @auth
-                        <a href="{{ route('courses.lessons', $course->id) }}" class="btn btn-primary btn-lg w-100">Enroll
-                            Now</a>
+                        @if ($isEnrolled)
+                            <a href="{{ route('courses.lessons', $course->id) }}" class="btn btn-primary btn-lg w-100">Start
+                                Learning</a>
+                        @else
+                            <a href="mailto:admin@example.com" class="btn btn-outline-danger btn-lg w-100">Contact Admin</a>
+                        @endif
                     @else
                         <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg w-100"
                             onclick="return confirm('Please login to enroll in the course.')">Login to Enroll</a>

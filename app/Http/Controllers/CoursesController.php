@@ -60,50 +60,24 @@ class CoursesController extends Controller
 
     public function course_detail($course_id)
     {
-        // Fetch the course details based on the course_id
-        $course = Courses::where('id', $course_id)->first();
-
-        // Fetch the category details based on the course's category_id
-        $category = Categories::where('id', $course->category_id)->first();
-
-        // Fetch enrollment details where the course_id matches
-        $enrollments = Enrollments::where('course_id', $course_id)->get();
-
-        //lessons details based on the course_id
+        $course = Courses::findOrFail($course_id);
+        $category = Categories::find($course->category_id);
         $lessons = Lessons::where('course_id', $course_id)->get();
-
-        // Fetch all videos associated with the course's lessons
         $videos = Videos::whereIn('lesson_id', $lessons->pluck('id'))->get();
 
-        // Fetch the user's enrollment record for the course
-        $user_id    = auth()->id();
+        $user_id = auth()->id();
         $enrollment = Enrollments::where('course_id', $course_id)
             ->where('user_id', $user_id)
+            ->where('status', 'active')
             ->first();
 
-        // Check if the user is enrolled and the status is 'active' or 'complete'
-        $isEnrolled = $enrollment && in_array($enrollment->status, ['active', 'complete']);
+        $isEnrolled = $enrollment !== null;
 
-        // Fetch the user's enrollments for other courses
-        $otherEnrollments = Enrollments::where('user_id', $user_id)
-            ->where('status', 'active');
-
-        // If you need the count of enrollments or specific details, add logic here
-        $enrollmentCount = $enrollments->count();
-
-        // Prepare all data to be passed to the view
-        $data = [
-            'course'          => $course,
-            'category'        => $category,
-            'enrollments'     => $enrollments,
-            'enrollmentCount' => $enrollmentCount,
-            'videos'          => $videos,
-            'lessons'         => $lessons,
-        ];
-
-        // dd($data);
-        return view('user.layouts.courses_detail', $data);
+        return view('user.layouts.courses_detail', compact(
+            'course', 'category', 'lessons', 'videos', 'isEnrolled'
+        ));
     }
+
 
     // public function course_lessons($course_id) {
     //     $user_id = auth()->id();
@@ -292,17 +266,22 @@ class CoursesController extends Controller
 
     public function lessons($id)
     {
-        $course = Courses::find($id);
+        $user = auth()->user();
 
-        $lessons = Lessons::where('course_id', $course->id)->get();
+        $enrollment = Enrollments::where('course_id', $id)
+        ->where('user_id', $user->id)
+        ->where('status', 'active')
+        ->first();
 
-        $videos = Videos::whereIn('lesson_id', $lessons->pluck('id'))
-            ->get()
-            ->groupBy('lesson_id');
+        if (!$enrollment) {
+            return redirect()->route('courses.detail', $id)
+                ->with('error', 'Access denied. You must be enrolled to view lessons.');
+        }
 
-        // Calculate progress (example: percentage of completed lessons)
-        $progress = 15; // replace with actual logic if needed
+        $course = Courses::findOrFail($id);
+        $lessons = Lessons::where('course_id', $id)->get();
+        $videos = Videos::whereIn('lesson_id', $lessons->pluck('id'))->get()->groupBy('lesson_id');
 
-        return view('user.layouts.course_lessons', compact('course', 'lessons', 'videos', 'progress'));
+        return view('user.layouts.course_lessons', compact('course', 'lessons', 'videos'));
     }
 }

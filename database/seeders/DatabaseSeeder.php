@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             LessonsVideosSeeder::class,
             VideoSeeder::class,
-
+            EnrollmentSeeder::class,
         ]);
     }
 }
