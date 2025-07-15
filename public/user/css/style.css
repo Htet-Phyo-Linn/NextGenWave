@@ -19,7 +19,10 @@
     --lesson-content-max-width: 900px;
     --lesson-details-padding: 1rem;
     --lesson-details-margin: 1rem;
+    --sidebar-bg-dark: #000000; /* pure black for sidebar in dark mode */
 }
+
+
 
 [data-theme="dark"] {
     --primary-color: #4f8cff;

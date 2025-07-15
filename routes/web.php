@@ -26,11 +26,12 @@ Route::view('/about', 'user.layouts.about')->name('about');
 Route::prefix('course')->name('courses.')->group(function () {
     Route::get('/', [CoursesController::class, 'index'])->name('index');
     Route::get('/{id}', [CoursesController::class, 'course_detail'])->name('show');
+
+    // 👇 New route for course lessons
+    Route::get('/{id}/lessons', [CoursesController::class, 'lessons'])->name('lessons');
 });
 
-// Legacy routes (consider removing these if not used)
-Route::view('/detail', 'user.layouts.courses_detail')->name('courses_detail');
-Route::view('/lessons', 'user.layouts.course_lessons')->name('course.lessons');
+
 
 /*
 |--------------------------------------------------------------------------

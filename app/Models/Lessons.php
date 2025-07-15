@@ -12,9 +12,15 @@ class Lessons extends Model
         'content',
     ];
 
+
+    public function course()
+    {
+        return $this->belongsTo(Courses::class);
+    }
+
     public function videos()
     {
-        return $this->hasMany(Videos::class, 'lesson_id');
+        return $this->hasMany(Videos::class);
     }
 
 }

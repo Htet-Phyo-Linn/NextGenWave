@@ -12,4 +12,9 @@ class Videos extends Model
         'video_url',
         'duration',
     ];
+
+    public function lesson()
+    {
+        return $this->belongsTo(Lessons::class);
+    }
 }

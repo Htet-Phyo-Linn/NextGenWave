@@ -15,5 +15,15 @@ class Courses extends Model
         'image'
     ];
 
+    public function lessons()
+    {
+        return $this->hasMany(Lessons::class);
+    }
+
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id');
+    }
+
 
 }

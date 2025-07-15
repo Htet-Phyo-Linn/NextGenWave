@@ -35,18 +35,25 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('contact')}}">Contact</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('profile.show')}}">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link nav-link text-decoration-none p-0"
-                                style="margin-top:8px;  border: none; background: none;">
-                                Logout
-                            </button>
-                        </form>
-                    </li>
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile.show') }}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="nav-link btn btn-link nav-link text-decoration-none p-0"
+                                    style="margin-top:8px; border: none; background: none;">
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+                    @endauth
+                    @guest
+                        <li class="nav-item">
+                            <a href="{{ route('login') }}" class="nav-link text-white">Login</a>
+                        </li>
+                    @endguest
 
                     <li class="nav-item form-check form-switch ms-lg-3 d-flex align-items-center">
                         <input class="form-check-input" type="checkbox" id="theme-switcher" style="cursor:pointer">
