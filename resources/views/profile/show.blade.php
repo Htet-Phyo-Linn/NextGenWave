@@ -14,35 +14,40 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}"><i class="bi bi-code-slash"></i> CodeLMS</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
+            <a class="navbar-brand" href="index.html"><i class="bi bi-code-slash"></i> CodeLMS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/courses') }}">Courses</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/about') }}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/contact') }}">Contact</a></li>
                     <li class="nav-item">
-                        <a class="btn btn-primary ms-lg-2" href="{{ route('login') }}">Login</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('courses.index') }}">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('about')}}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('contact')}}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('profile.show')}}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="nav-link btn btn-link nav-link text-decoration-none p-0"
+                                style="margin-top:8px;  border: none; background: none;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+
                     <li class="nav-item form-check form-switch ms-lg-3 d-flex align-items-center">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="theme-switcher"
-                            style="cursor:pointer"
-                            onclick="toggleTheme()"
-                        />
+                        <input class="form-check-input" type="checkbox" id="theme-switcher" style="cursor:pointer">
                         <label class="form-check-label ms-2 text-white" for="theme-switcher" title="Toggle dark mode">
                             <i class="bi bi-moon"></i>
                         </label>
@@ -51,6 +56,7 @@
             </div>
         </div>
     </nav>
+
 
     <!-- Profile Section -->
     <section class="py-5">
@@ -167,13 +173,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('bg-dark');
-            document.body.classList.toggle('text-white');
-            const switcher = document.getElementById('theme-switcher');
-            switcher.checked = !switcher.checked;
-        }
-    </script>
+    <script src="{{ asset('user/js/main.js') }}"></script>
 </body>
 </html>

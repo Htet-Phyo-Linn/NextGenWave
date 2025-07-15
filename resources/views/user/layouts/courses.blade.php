@@ -1,6 +1,15 @@
 @extends('user.layout')
 
 @section('content')
+    <!-- Page Header -->
+    <header class="page-header text-white text-center position-relative"
+        style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1742&auto=format&fit=crop'); background-size: cover; background-position: center; height: 60vh;">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.6);"></div>
+        <div class="container h-100 d-flex flex-column justify-content-center align-items-center position-relative z-1">
+            <h1 class="display-4 fw-bold">Get in Touch</h1>
+            <p class="lead">We'd love to hear from you. Please fill out the form below to contact us.</p>
+        </div>
+    </header>
     <div class="container py-5">
         <h2 class="mb-4 text-center fw-bold">Explore Our Courses</h2>
 
