@@ -93,6 +93,9 @@ Route::middleware(['auth', 'verified', PreventBackHistory::class, RoleMiddleware
         // Admin Dashboard
         Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+        // Admin Profile
+        Route::get('profile', [ProfileController::class, 'adminProfile'])->name('profile');
+
         // User Management
         Route::prefix('user')->name('user.')->group(function () {
             Route::get('list', [UserController::class, 'list'])->name('list');

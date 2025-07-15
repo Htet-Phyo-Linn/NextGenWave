@@ -112,7 +112,7 @@
                         <li class="sidebar-title">Account Settings</li>
 
                         <li class="sidebar-item">
-                            <a href="{{ route('profile.show') }}" class="sidebar-link">
+                            <a href="{{ route('admin.profile') }}" class="sidebar-link">
                                 <i class="bi bi-person-circle"></i>
                                 <span>Profile</span>
                             </a>

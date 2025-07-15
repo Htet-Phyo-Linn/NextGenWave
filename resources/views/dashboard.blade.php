@@ -55,7 +55,7 @@
         <div class="col-md-4 stretch-card grid-margin">
             <div class="card bg-info text-white">
                 <div class="card-body">
-                    <h4 class="font-weight-normal mb-3">Completed Enrollments</h4>
+                    <h4 class="font-weight-normal mb-3">Completed Course</h4>
                     <h2 class="mb-2">{{ $completedCount ?? 0 }}</h2>
                 </div>
             </div>
@@ -82,7 +82,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // User Creation Chart
             const userCreationCtx = document.getElementById('userCreationChart').getContext('2d');
             const userCreationData = @json($userCreationData);

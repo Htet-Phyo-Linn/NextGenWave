@@ -1,7 +1,13 @@
 @extends('admin.master')
 @section('content')
     <!-- Button to trigger the modal -->
-
+    <style>
+        #courseImg {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+        }
+    </style>
     <div class="row  mb-3">
         <div class="col-md-9">
             @if (session('createSuccess'))
@@ -75,7 +81,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">
-                    Category List
+                    User List
                 </h5>
             </div>
             <div class="card-body">
@@ -96,8 +102,8 @@
                             @foreach ($items as $index => $user)
                                 <tr>
                                     <td>{{ $user->id }}
-                                        <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="Profile"
-                                            style="float: right;">
+                                        <img id="courseImg" src="{{ asset('storage/' . $user->profile_photo_path) }}"
+                                            alt="Profile" style="float: right;">
                                     </td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
