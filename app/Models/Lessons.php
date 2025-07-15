@@ -20,7 +20,7 @@ class Lessons extends Model
 
     public function videos()
     {
-        return $this->hasMany(Videos::class);
+        return $this->hasMany(Videos::class, 'lesson_id'); 
     }
-
+    
 }
