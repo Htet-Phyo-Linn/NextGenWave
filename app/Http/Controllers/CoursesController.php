@@ -104,9 +104,8 @@ class CoursesController extends Controller
     //     return view('user.layouts.course_lessons', $data);
     // }
 
-    public function course_lessons($course_id)
+    public function course_lessons(Request $request, $course_id)
     {
-        // Simulate the current user ID (or retrieve from auth session if using Auth)
         $user_id = auth()->id();
 
         // Fetch the user's enrollment record for the course
@@ -115,27 +114,27 @@ class CoursesController extends Controller
             ->first();
 
         // Check if the user is enrolled and the status is 'active' or 'complete'
-        if (! $enrollment || ! in_array($enrollment->status, ['active', 'complete'])) {
-                                                    // Redirect to an error page if not enrolled or status is 'pending' or 'cancelled'
+        if (!$enrollment || !in_array($enrollment->status, ['active', 'complete'])) {
+            // Redirect to an error page if not enrolled or status is 'pending' or 'cancelled'
             return view('errors.enrollment_error'); // Create a view at resources/views/errors/enrollment_error.blade.php
         }
 
-        // Fetch all lessons for the course
-        $lessons = Lessons::where('course_id', $id)->get();
+        $course = Courses::with(['lessons.videos', 'instructor'])->findOrFail($course_id);
 
-        $course = Courses::with(['lessons.videos', 'instructor'])->findOrFail($id);
-
-        // Re-structure videos per lesson ID
-        $videos = [];
-        foreach ($course->lessons as $lesson) {
-            $videos[$lesson->id] = $lesson->videos;
+        $active_video = null;
+        if ($request->has('video')) {
+            $active_video = Videos::findOrFail($request->video);
+            // Security check: Ensure the requested video belongs to the current course
+            if (!$course->lessons->pluck('videos')->flatten()->contains('id', $active_video->id)) {
+                abort(404);
+            }
         }
 
         // Prepare data for the view
         $data = [
-            'course'  => $course,
+            'course' => $course,
             'lessons' => $course->lessons,
-            'videos'  => $videos, // Pass videos data
+            'active_video' => $active_video,
         ];
 
         return view('user.layouts.course_lessons', $data);
@@ -262,26 +261,5 @@ class CoursesController extends Controller
     {
         courses::where('id', $id)->delete();
         return redirect()->route('admin.course.list')->with(['deleteSuccess' => 'Course successfully deleted ...']);
-    }
-
-    public function lessons($id)
-    {
-        $user = auth()->user();
-
-        $enrollment = Enrollments::where('course_id', $id)
-        ->where('user_id', $user->id)
-        ->where('status', 'active')
-        ->first();
-
-        if (!$enrollment) {
-            return redirect()->route('courses.detail', $id)
-                ->with('error', 'Access denied. You must be enrolled to view lessons.');
-        }
-
-        $course = Courses::findOrFail($id);
-        $lessons = Lessons::where('course_id', $id)->get();
-        $videos = Videos::whereIn('lesson_id', $lessons->pluck('id'))->get()->groupBy('lesson_id');
-
-        return view('user.layouts.course_lessons', compact('course', 'lessons', 'videos'));
     }
 }

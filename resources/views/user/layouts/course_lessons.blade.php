@@ -171,8 +171,9 @@
                                 class="accordion-collapse collapse @if ($index == 0) show @endif"
                                 aria-labelledby="heading{{ $lesson->id }}" data-bs-parent="#lessonAccordion">
                                 <div class="list-group list-group-flush">
-                                    @foreach ($videos[$lesson->id] ?? [] as $video)
-                                        <a href="#" class="list-group-item list-group-item-action">
+                                    @foreach ($lesson->videos ?? [] as $video)
+                                        <a href="{{ route('user.course.lessons', ['id' => $course->id, 'video' => $video->id]) }}"
+                                            class="list-group-item list-group-item-action @if ($active_video && $active_video->id == $video->id) active @endif">
                                             <i class="bi bi-play-circle me-2"></i>{{ $video->title }}
                                         </a>
                                     @endforeach
@@ -185,9 +186,16 @@
 
             <!-- Main content (9 cols) -->
             <main class="col-md-9 video-section position-relative">
-                <div class="video-player ratio ratio-16x9">
-                    <iframe src="https://www.youtube.com/embed/videoseries?list=PL4-IK0AVhVjM0H_s0T63_vepP22V14G0y"
-                        title="Course Videos" allowfullscreen frameborder="0"></iframe>
+                <div class="video-player" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    @if ($active_video && $active_video->video_url)
+                        <iframe src="{{ $active_video->video_url }}" title="{{ $active_video->title }}"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                            allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>
+                    @else
+                        <div class="d-flex justify-content-center align-items-center h-100">
+                            <p class="text-muted">Please select a video to start learning.</p>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="tabs-wrapper">
@@ -233,8 +241,9 @@
                                             aria-labelledby="headingMobile{{ $lesson->id }}"
                                             data-bs-parent="#lessonAccordionMobile">
                                             <div class="list-group list-group-flush">
-                                                @foreach ($videos[$lesson->id] ?? [] as $video)
-                                                    <a href="#" class="list-group-item list-group-item-action">
+                                                @foreach ($lesson->videos ?? [] as $video)
+                                                    <a href="{{ route('user.course.lessons', ['id' => $course->id, 'video' => $video->id]) }}"
+                                                        class="list-group-item list-group-item-action @if ($active_video && $active_video->id == $video->id) active @endif">
                                                         <i class="bi bi-play-circle me-2"></i>{{ $video->title }}
                                                     </a>
                                                 @endforeach

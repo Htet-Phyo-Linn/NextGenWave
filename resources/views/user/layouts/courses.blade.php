@@ -55,8 +55,10 @@
             @forelse ($courses as $course)
                 <div class="col-lg-3 col-md-6">
                     <div class="card h-100 border-0 shadow-sm course-card">
-                        <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('images/default-course.png') }}"
-                            class="card-img-top rounded-top" alt="Course Image">
+                        <div class="course-image-wrapper">
+                            <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('images/default-course.png') }}"
+                                class="card-img-top" alt="Course Image">
+                        </div>
 
                         <div class="card-body d-flex flex-column">
                             <h6 class="text-primary small text-uppercase fw-semibold mb-1">

@@ -82,7 +82,7 @@
 
         </div>
         <div class="col-md-3">
-            <button type="button" class="btn btn-primary" id="openModal" data-bs-toggle="modal"
+            <button type="button" class="btn btn-primary rounded-pill" id="openModal" data-bs-toggle="modal"
                 data-bs-target="#courseModal">
                 Add New course
             </button>

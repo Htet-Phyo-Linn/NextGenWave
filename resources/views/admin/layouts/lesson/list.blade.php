@@ -85,7 +85,7 @@
                 data-bs-target="#addLessonModal">
                 Add New Lesson
             </button> --}}
-            <button id="add-lesson-btn" class="btn btn-primary">Add Lesson</button>
+            <button id="add-lesson-btn" class="btn btn-primary rounded-pill">Add Lesson</button>
 
         </div>
     </div>
@@ -225,7 +225,7 @@
                         <div id="input-container"></div>
 
                         <!-- Plus Button -->
-                        <button type="button" id="plus-button" class="btn btn-sm btn-primary mt-3 mb-3"
+                        <button type="button" id="plus-button" class="btn btn-sm btn-primary rounded-pill mt-3 mb-3"
                             style="float: left;">Add
                             Video</button>
                     </div>

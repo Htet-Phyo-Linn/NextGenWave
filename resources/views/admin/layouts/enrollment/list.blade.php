@@ -57,7 +57,7 @@
             @endif
         </div>
         <div class="col-md-3">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enrollmentModal">
+            <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#enrollmentModal">
                 Enroll New Student
             </button>
         </div>

@@ -23,7 +23,7 @@
                     <h2>{{ $course->price }} mmk</h2>
                     @auth
                         @if ($isEnrolled)
-                            <a href="{{ route('courses.lessons', $course->id) }}" class="btn btn-primary btn-lg w-100">Start
+                            <a href="{{ route('user.course.lessons', $course->id) }}" class="btn btn-primary btn-lg w-100">Start
                                 Learning</a>
                         @else
                             <a href="mailto:admin@example.com" class="btn btn-outline-danger btn-lg w-100">Contact Admin</a>
@@ -60,12 +60,27 @@
                                     aria-labelledby="heading{{ $index }}" data-bs-parent="#curriculumAccordion">
                                     <div class="accordion-body">
                                         <ul class="list-group list-group-flush">
-                                            @forelse ($videos[$lesson->id] ?? [] as $video)
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-play-circle-fill me-2"></i>{{ $video->title }}
+                                            @php
+                                                $lessonVideos = $videos->where('lesson_id', $lesson->id);
+                                            @endphp
+
+                                            @forelse ($lessonVideos as $video)
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        @if ($isEnrolled)
+                                                            <a href="{{ route('user.course.lessons', ['id' => $course->id, 'video' => $video->id]) }}"
+                                                                class="text-decoration-none">
+                                                                <i class="bi bi-play-circle-fill me-2"></i>
+                                                                {{ $video->title }}
+                                                            </a>
+                                                        @else
+                                                            <i class="bi bi-lock-fill me-2"></i>
+                                                            {{ $video->title }}
+                                                        @endif
+                                                    </div>
                                                 </li>
                                             @empty
-                                                <li class="list-group-item text-muted">No videos available for this modules.
+                                                <li class="list-group-item text-muted">No videos available for this module.
                                                 </li>
                                             @endforelse
                                         </ul>

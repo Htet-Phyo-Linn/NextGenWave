@@ -26,9 +26,6 @@ Route::view('/about', 'user.layouts.about')->name('about');
 Route::prefix('course')->name('courses.')->group(function () {
     Route::get('/', [CoursesController::class, 'index'])->name('index');
     Route::get('/{id}', [CoursesController::class, 'course_detail'])->name('show');
-
-    // 👇 New route for course lessons
-    Route::get('/{id}/lessons', [CoursesController::class, 'lessons'])->name('lessons');
 });
 
 
