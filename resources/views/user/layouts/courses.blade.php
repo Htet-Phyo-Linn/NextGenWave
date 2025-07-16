@@ -10,6 +10,7 @@
             <p class="lead">Discover what this course has to offer and unlock your full potential.</p>
         </div>
     </header>
+
     <div class="container py-5">
         <h2 class="mb-4 text-center fw-bold">Explore Our Courses</h2>
 
@@ -65,7 +66,9 @@
                                 {{ $course->category_name ?? 'Uncategorized' }}
                             </h6>
                             <h5 class="card-title fw-bold">{{ $course->title }}</h5>
-                            <p class="card-text small text-muted">{{ Str::limit($course->description, 80) }}</p>
+                            <p class="card-text small" style="color: var(--text-color);">
+                                {{ Str::limit($course->description, 80) }}
+                            </p>
                             <a href="{{ route('courses.show', $course->id) }}"
                                 class="btn btn-outline-primary btn-sm mt-auto">View Course</a>
                         </div>

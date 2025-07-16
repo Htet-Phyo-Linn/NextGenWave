@@ -65,23 +65,23 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="card shadow-sm border-0 bg-light text-dark dark:bg-dark dark:text-light">
+                    <div class="card shadow-sm border-0 course-card">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-4">
                                 <img src="{{ $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : 'https://i.pravatar.cc/120?img=5' }}"
-                                    alt="User Avatar"
-                                    class="rounded-circle me-4 border border-3 border-white dark:border-secondary"
-                                    width="100" height="100" />
+                                     alt="User Avatar"
+                                     class="rounded-circle me-4 border border-3"
+                                     width="100" height="100" />
                                 <div>
-                                    <h3 class="mb-0">{{ $user->name }}</h3>
-                                    <p class="text-muted mb-1">{{ $user->email }}</p>
+                                    <h3 class="mb-0" style="color: var(--text-color);">{{ $user->name }}</h3>
+                                    <p class="mb-1" style="color: var(--text-color);">{{ $user->email }}</p>
                                     <span class="badge bg-primary">{{ $user->role ?? 'Student' }}</span>
                                 </div>
                             </div>
 
-                            <hr class="border-light-subtle dark:border-secondary" />
+                            <hr class="my-4" />
 
-                            <h5 class="mb-3">Profile Details</h5>
+                            <h5 class="mb-3" style="color: var(--text-color);">Profile Details</h5>
                             <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
@@ -90,7 +90,7 @@
                                     <div class="col-md-6">
                                         <label for="profileName" class="form-label">Full Name</label>
                                         <input type="text" class="form-control" id="profileName" name="name"
-                                            value="{{ old('name', $user->name) }}" required />
+                                               value="{{ old('name', $user->name) }}" required />
                                         @error('name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -98,7 +98,7 @@
                                     <div class="col-md-6">
                                         <label for="profileEmail" class="form-label">Email</label>
                                         <input type="email" class="form-control" id="profileEmail" name="email"
-                                            value="{{ old('email', $user->email) }}" required />
+                                               value="{{ old('email', $user->email) }}" required />
                                         @error('email')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -108,8 +108,8 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="profilePhoto" class="form-label">Profile Photo</label>
-                                        <input type="file" class="form-control" id="profilePhoto"
-                                            name="profile_photo" accept="image/*" />
+                                        <input type="file" class="form-control" id="profilePhoto" name="profile_photo"
+                                               accept="image/*" />
                                         @error('profile_photo')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -117,23 +117,22 @@
                                     <div class="col-md-6">
                                         <label for="profileRole" class="form-label">Role</label>
                                         <input type="text" class="form-control" id="profileRole"
-                                            value="{{ $user->role ?? 'Student' }}" disabled />
+                                               value="{{ $user->role ?? 'Student' }}" disabled />
                                     </div>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Update Profile</button>
                             </form>
 
-                            <hr class="my-4 border-light-subtle dark:border-secondary" />
+                            <hr class="my-4" />
 
-                            <h5 class="mb-3">Enrolled Courses</h5>
+                            <h5 class="mb-3" style="color: var(--text-color);">Enrolled Courses</h5>
                             <ul class="list-group">
                                 @foreach ($enrolledCourses as $course)
-                                    <li
-                                        class="list-group-item d-flex justify-content-between align-items-center bg-white dark:bg-secondary text-dark dark:text-light border-0">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                                        style="background-color: var(--card-bg-color); color: var(--text-color); border: 1px solid var(--card-border-color);">
                                         {{ $course['title'] }}
-                                        <span
-                                            class="badge {{ $course['status'] === 'In Progress' ? 'bg-success' : 'bg-secondary' }}">
+                                        <span class="badge {{ $course['status'] === 'In Progress' ? 'bg-success' : 'bg-secondary' }}">
                                             {{ $course['status'] }}
                                         </span>
                                     </li>
