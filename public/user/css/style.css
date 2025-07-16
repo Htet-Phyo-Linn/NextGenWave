@@ -410,7 +410,7 @@ section.bg-light {
 }
 
 [data-theme="dark"] .lesson-details {
-    background-color: var(--card-bg-color);
+    background-color: var(--card-bg-.card-bg-color);
     color: var(--text-color);
 }
 

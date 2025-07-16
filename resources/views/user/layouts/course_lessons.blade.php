@@ -4,43 +4,42 @@
     <div class="container-fluid mb-4">
         <div class="row">
             <!-- Sidebar -->
-            <nav class="col-md-3 d-none d-md-block pt-4 px-3 border-end sidebar"
-                style="background-color: var(--sidebar-bg-light);">
+            <nav class="col-md-2 d-none d-md-block pt-4 px-3 border-end sidebar">
                 <h5 class="fw-bold mb-3" id="course-title">{{ $course->title }}</h5>
 
-
-                <div class="accordion accordion-flush module-list" id="lessonAccordion">
-                    @foreach ($lessons as $index => $lesson)
-                        <div class="accordion-item" style="background-color: transparent; color: var(--text-color);">
-                            <h2 class="accordion-header" id="heading{{ $lesson->id }}">
-                                <button class="accordion-button @if ($index != 0) collapsed @endif" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapse{{ $lesson->id }}"
-                                    aria-expanded="{{ $index == 0 ? 'true' : 'false' }}"
-                                    aria-controls="collapse{{ $lesson->id }}"
-                                    style="background-color: var(--bg-light); color: var(--text-light);">
-                                    {{ $lesson->title }}
-                                </button>
-                            </h2>
-                            <div id="collapse{{ $lesson->id }}"
-                                class="accordion-collapse collapse @if ($index == 0) show @endif"
-                                aria-labelledby="heading{{ $lesson->id }}" data-bs-parent="#lessonAccordion">
-                                <div class="list-group list-group-flush">
-                                    @foreach ($lesson->videos ?? [] as $video)
-                                        <a href="{{ route('user.course.lessons', ['id' => $course->id, 'video' => $video->id]) }}"
-                                            class="list-group-item list-group-item-action @if ($active_video && $active_video->id == $video->id) active @endif">
-                                            <i class="bi bi-play-circle me-2"></i>{{ $video->title }}
-                                        </a>
-                                    @endforeach
+                <div class="card p-3">
+                    <div class="accordion accordion-flush module-list" id="lessonAccordion">
+                        @foreach ($lessons as $index => $lesson)
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ $lesson->id }}">
+                                    <button class="accordion-button @if ($index != 0) collapsed @endif" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapse{{ $lesson->id }}"
+                                        aria-expanded="{{ $index == 0 ? 'true' : 'false' }}"
+                                        aria-controls="collapse{{ $lesson->id }}">
+                                        {{ $lesson->title }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ $lesson->id }}"
+                                    class="accordion-collapse collapse @if ($index == 0) show @endif"
+                                    aria-labelledby="heading{{ $lesson->id }}" data-bs-parent="#lessonAccordion">
+                                    <div class="list-group list-group-flush">
+                                        @foreach ($lesson->videos ?? [] as $video)
+                                            <a href="{{ route('user.course.lessons', ['id' => $course->id, 'video' => $video->id]) }}"
+                                                class="list-group-item list-group-item-action @if ($active_video && $active_video->id == $video->id) active @endif">
+                                                <i class="bi bi-play-circle me-2"></i>{{ $video->title }}
+                                            </a>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
             </nav>
 
-            <!-- Main content (9 cols) -->
-            <main class="col-md-9 video-section position-relative">
-                <div class="video-player" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+            <!-- Main content (8 cols) -->
+            <main class="col-md-8 offset-md-1 video-section position-relative p-4">
+                <div class="video-player mb-4" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
                     @if ($active_video && $active_video->video_url)
                         <iframe src="{{ $active_video->video_url }}" title="{{ $active_video->title }}"
                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen
