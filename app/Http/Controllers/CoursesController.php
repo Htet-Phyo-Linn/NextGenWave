@@ -128,6 +128,12 @@ class CoursesController extends Controller
             if (!$course->lessons->pluck('videos')->flatten()->contains('id', $active_video->id)) {
                 abort(404);
             }
+        } else {
+            // If no specific video is requested, get the first video of the first lesson
+            $first_lesson = $course->lessons->first();
+            if ($first_lesson) {
+                $active_video = $first_lesson->videos->first();
+            }
         }
 
         // Prepare data for the view
